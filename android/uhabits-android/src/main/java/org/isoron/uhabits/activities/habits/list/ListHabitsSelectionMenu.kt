@@ -20,6 +20,8 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.view.*
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
@@ -82,6 +84,15 @@ class ListHabitsSelectionMenu @Inject constructor(
 
             else -> return false
         }
+        val deleteCallback = object: SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                behavior.onDeleteHabits()
+                listAdapter.notifyItemRemoved(position)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(deleteCallback)
+
     }
 
     override fun onPrepare(menu: Menu): Boolean {

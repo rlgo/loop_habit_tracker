@@ -19,20 +19,28 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
 
-import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.preferences.*;
-import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.core.ui.callbacks.*;
-import org.isoron.uhabits.core.utils.*;
-import org.jetbrains.annotations.*;
+import org.isoron.uhabits.core.commands.CommandRunner;
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand;
+import org.isoron.uhabits.core.commands.DeleteHabitsCommand;
+import org.isoron.uhabits.core.models.CheckmarkList;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.Timestamp;
+import org.isoron.uhabits.core.preferences.Preferences;
+import org.isoron.uhabits.core.tasks.ExportCSVTask;
+import org.isoron.uhabits.core.tasks.TaskRunner;
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback;
+import org.isoron.uhabits.core.utils.DateUtils;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.inject.*;
+import javax.inject.Inject;
 
 public class ListHabitsBehavior
 {
@@ -57,6 +65,9 @@ public class ListHabitsBehavior
     @NonNull
     private final BugReporter bugReporter;
 
+    @NonNull
+    private final ListHabitsSelectionMenuBehavior.Adapter adapter;
+
     @Inject
     public ListHabitsBehavior(@NonNull HabitList habitList,
                               @NonNull DirFinder dirFinder,
@@ -64,7 +75,7 @@ public class ListHabitsBehavior
                               @NonNull Screen screen,
                               @NonNull CommandRunner commandRunner,
                               @NonNull Preferences prefs,
-                              @NonNull BugReporter bugReporter)
+                              @NonNull BugReporter bugReporter, @NonNull ListHabitsSelectionMenuBehavior.Adapter adapter)
     {
         this.habitList = habitList;
         this.dirFinder = dirFinder;
@@ -73,6 +84,7 @@ public class ListHabitsBehavior
         this.commandRunner = commandRunner;
         this.prefs = prefs;
         this.bugReporter = bugReporter;
+        this.adapter = adapter;
     }
 
     public void onClickHabit(@NonNull Habit h)
@@ -91,6 +103,16 @@ public class ListHabitsBehavior
             commandRunner.execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
                 habit.getId());
+        });
+    }
+
+    public void onSwipe(@NonNull List<Habit> deleteHabits){
+        screen.showDeleteConfirmationScreen(() ->
+        {
+            adapter.performRemove(deleteHabits);
+            commandRunner.execute(new DeleteHabitsCommand(habitList, deleteHabits),
+                    null);
+            adapter.clearSelection();
         });
     }
 
@@ -212,5 +234,8 @@ public class ListHabitsBehavior
         void showSendFileScreen(@NonNull String filename);
 
         void showConfirmInstallSyncKey(@NonNull OnConfirmedCallback callback);
+
+        void showDeleteConfirmationScreen(
+                @NonNull OnConfirmedCallback callback);
     }
 }

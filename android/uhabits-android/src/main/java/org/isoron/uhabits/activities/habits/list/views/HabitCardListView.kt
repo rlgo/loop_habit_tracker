@@ -54,6 +54,16 @@ class HabitCardListView(
     private val touchHelper = ItemTouchHelper(TouchHelperCallback()).apply {
         attachToRecyclerView(this@HabitCardListView)
     }
+    val swipeToDeleteCallBack = object : SwipeToDeleteCallBack(){
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            controller.get().onItemSwipe(position)
+            adapter.notifyItemRemoved(position)
+        }
+    }
+    val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack).apply {
+        attachToRecyclerView(this@HabitCardListView)
+    }
 
     init {
         setHasFixedSize(true)
@@ -129,6 +139,7 @@ class HabitCardListView(
         fun drop(from: Int, to: Int) {}
         fun onItemClick(pos: Int) {}
         fun onItemLongClick(pos: Int) {}
+        fun onItemSwipe(pos: Int) {}
         fun startDrag(position: Int) {}
     }
 
@@ -168,5 +179,19 @@ class HabitCardListView(
 
         override fun isItemViewSwipeEnabled() = false
         override fun isLongPressDragEnabled() = false
+
+    }
+
+    inner abstract class SwipeToDeleteCallBack : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+            val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            return makeMovementFlags(0, swipeFlag)
+        }
+
+        override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean {
+            return false
+        }
+
+        override fun isItemViewSwipeEnabled() = true
     }
 }

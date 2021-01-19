@@ -67,6 +67,10 @@ class HabitCardListController @Inject constructor(
         activeMode.onItemLongClick(position)
     }
 
+    override fun onItemSwipe(position: Int) {
+        activeMode.onItemSwipe(position)
+    }
+
     override fun onModelChange() {
         if (adapter.isSelectionEmpty) {
             activeMode = NormalMode()
@@ -96,6 +100,7 @@ class HabitCardListController @Inject constructor(
     interface HabitListener {
         fun onHabitClick(habit: Habit)
         fun onHabitReorder(from: Habit, to: Habit)
+        fun onHabitSwipe (habit: Habit)
     }
 
     /**
@@ -106,6 +111,7 @@ class HabitCardListController @Inject constructor(
     private interface Mode {
         fun onItemClick(position: Int)
         fun onItemLongClick(position: Int): Boolean
+        fun onItemSwipe(position: Int)
         fun startDrag(position: Int)
     }
 
@@ -123,6 +129,13 @@ class HabitCardListController @Inject constructor(
         override fun onItemLongClick(position: Int): Boolean {
             startSelection(position)
             return true
+        }
+
+        override fun onItemSwipe(position: Int) {
+            val habit = adapter.getItem(position)
+            val deleteList = listOf(habit)
+            startSelection(position)
+            behavior.onSwipe(deleteList)
         }
 
         override fun startDrag(position: Int) {
@@ -150,6 +163,13 @@ class HabitCardListController @Inject constructor(
             toggleSelection(position)
             notifyListener()
             return true
+        }
+
+        override fun onItemSwipe(position: Int) {
+            val habit = adapter.getItem(position)
+            val deleteList = listOf(habit)
+            behavior.onSwipe(deleteList)
+            notifyListener()
         }
 
         override fun startDrag(position: Int) {
