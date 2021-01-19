@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -22,5 +22,5 @@ package org.isoron.uhabits.core;
 public class Config
 {
     public static final String DATABASE_FILENAME = "uhabits.db";
-    public static int DATABASE_VERSION = 24;
+    public static int DATABASE_VERSION = 25;
 }
