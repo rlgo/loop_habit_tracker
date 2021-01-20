@@ -45,6 +45,7 @@ class AndroidNotificationTray
         @AppContext private val context: Context,
         private val pendingIntents: PendingIntentFactory,
         private val preferences: Preferences,
+        private val ringtoneManager: RingtoneManager,
 ) : NotificationTray.SystemTray {
     private var active = HashSet<Int>()
 
@@ -107,7 +108,6 @@ class AndroidNotificationTray
         // on the watch, Pebble requires us to add them to the
         // WearableExtender.
         val wearableExtender = WearableExtender().setBackground(wearableBg)
-        val changesRingtone = Uri.parse((ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+ context.applicationContext.packageName + "/" + R.raw.customnotification))
 
 
         val defaultText = context.getString(R.string.default_reminder_question)
@@ -119,7 +119,7 @@ class AndroidNotificationTray
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .setPriority(PRIORITY_HIGH)
                 .setVisibility(VISIBILITY_PRIVATE)
-                .setSound(changesRingtone)
+                .setSound(ringtoneManager.getURI())
                 .setVibrate(longArrayOf(500,1000,500,1000,500,1000,500,1000))
                 .setWhen(reminderTime)
                 .setShowWhen(true)
@@ -138,7 +138,7 @@ class AndroidNotificationTray
         }
 
         if (!disableSound)
-            builder.setSound(changesRingtone)
+            builder.setSound(ringtoneManager.getURI())
 
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
