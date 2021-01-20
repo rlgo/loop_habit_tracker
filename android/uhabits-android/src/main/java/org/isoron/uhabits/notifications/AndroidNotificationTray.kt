@@ -27,7 +27,6 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.*
 import android.os.Build.VERSION.*
-import android.provider.Settings
 import android.util.*
 import androidx.core.app.*
 import androidx.core.app.NotificationCompat.*
@@ -118,6 +117,8 @@ class AndroidNotificationTray
                 .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
+                .setPriority(PRIORITY_HIGH)
+                .setVisibility(VISIBILITY_PRIVATE)
                 .setSound(changesRingtone)
                 .setVibrate(longArrayOf(500,1000,500,1000,500,1000,500,1000))
                 .setWhen(reminderTime)
@@ -167,6 +168,7 @@ class AndroidNotificationTray
 
                 channel.enableLights(true)
                 channel.enableVibration(true)
+
 
                 val audioAttributes = AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
