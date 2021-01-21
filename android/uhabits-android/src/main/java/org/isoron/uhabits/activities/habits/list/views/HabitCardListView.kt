@@ -20,6 +20,8 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.os.*
 import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
@@ -183,6 +185,10 @@ class HabitCardListView(
     }
 
     inner abstract class SwipeToDeleteCallBack : ItemTouchHelper.Callback() {
+        private val background = ColorDrawable()
+        private val backgroundColor = Color.parseColor("#f44336")
+        private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
+
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
             val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             return makeMovementFlags(0, swipeFlag)
@@ -190,6 +196,23 @@ class HabitCardListView(
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean {
             return false
+        }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            val itemView = viewHolder.itemView
+            val itemHeight = itemView.bottom - itemView.top
+
+            //Draw red delete background
+            background.color = backgroundColor
+            background.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+            )
+            background.draw(c)
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
 
         override fun isItemViewSwipeEnabled() = true
