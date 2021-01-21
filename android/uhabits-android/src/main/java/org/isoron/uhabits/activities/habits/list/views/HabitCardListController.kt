@@ -100,7 +100,6 @@ class HabitCardListController @Inject constructor(
     interface HabitListener {
         fun onHabitClick(habit: Habit)
         fun onHabitReorder(from: Habit, to: Habit)
-        fun onHabitSwipe (habit: Habit)
     }
 
     /**

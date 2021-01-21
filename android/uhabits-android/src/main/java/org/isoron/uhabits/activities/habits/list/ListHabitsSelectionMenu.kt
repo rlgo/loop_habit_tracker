@@ -20,8 +20,6 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.view.*
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
@@ -84,7 +82,6 @@ class ListHabitsSelectionMenu @Inject constructor(
 
             else -> return false
         }
-
     }
 
     override fun onPrepare(menu: Menu): Boolean {

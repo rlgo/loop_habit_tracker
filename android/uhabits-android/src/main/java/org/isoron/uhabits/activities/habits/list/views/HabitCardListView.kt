@@ -23,7 +23,6 @@ import android.content.*
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.*
-import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
@@ -191,7 +190,6 @@ class HabitCardListView(
         private val intrinsicHeight = deleteIcon!!.intrinsicHeight
         private val background = ColorDrawable()
         private val backgroundColor = Color.parseColor("#f44336")
-        private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
             val swipeFlag = ItemTouchHelper.LEFT
