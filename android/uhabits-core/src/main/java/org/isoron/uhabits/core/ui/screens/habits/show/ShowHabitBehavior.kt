@@ -50,6 +50,18 @@ class ShowHabitBehavior(
         screen.updateWidgets()
     }
 
+    fun onCalorieBarCardBoolSpinnerPosition(position: Int) {
+        preferences.calorieBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onCalorieBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.calorieBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
     fun onClickEditHistory() {
         screen.showHistoryEditorDialog(this)
     }
@@ -86,7 +98,7 @@ class ShowHabitBehavior(
     interface Screen {
         fun showNumberPicker(value: Double,
                              unit: String,
-                             callback: ListHabitsBehavior.NumberPickerCallback)
+                             callback: (Double) -> Unit)
 
         fun updateWidgets()
         fun refresh()

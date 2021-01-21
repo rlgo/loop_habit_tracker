@@ -114,14 +114,34 @@ public class Preferences
         storage.putInt("pref_bar_card_bool_spinner", position);
     }
 
+    public int getCalorieBarCardBoolSpinnerPosition()
+    {
+        return Math.min(3, Math.max(0, storage.getInt("pref_caloriebar_card_bool_spinner", 0)));
+    }
+
+    public void setCalorieBarCardBoolSpinnerPosition(int position)
+    {
+        storage.putInt("pref_caloriebar_card_bool_spinner", position);
+    }
+
     public int getBarCardNumericalSpinnerPosition()
     {
-        return Math.min(4, Math.max(0, storage.getInt("pref_bar_card_numerical_spinner", 0)));
+        return Math.min(4, Math.max(0, storage.getInt("pref_caloriebar_card_numerical_spinner", 0)));
     }
 
     public void setBarCardNumericalSpinnerPosition(int position)
     {
-        storage.putInt("pref_bar_card_numerical_spinner", position);
+        storage.putInt("pref_caloriebar_card_numerical_spinner", position);
+    }
+
+    public int getCalorieBarCardNumericalSpinnerPosition()
+    {
+        return Math.min(4, Math.max(0, storage.getInt("pref_calorie_bar_card_numerical_spinner", 0)));
+    }
+
+    public void setCalorieBarCardNumericalSpinnerPosition(int position)
+    {
+        storage.putInt("pref_calorie_bar_card_numerical_spinner", position);
     }
 
     public int getLastHintNumber()

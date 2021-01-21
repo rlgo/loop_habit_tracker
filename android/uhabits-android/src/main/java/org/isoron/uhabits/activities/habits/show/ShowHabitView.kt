@@ -20,8 +20,10 @@
 package org.isoron.uhabits.activities.habits.show
 
 import android.content.*
+import android.util.Log
 import android.view.*
 import android.widget.*
+import kotlinx.android.synthetic.main.show_habit.view.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
@@ -41,15 +43,21 @@ data class ShowHabitViewModel(
         val frequency: FrequencyCardViewModel,
         val history: HistoryCardViewModel,
         val bar: BarCardViewModel,
+        val calorieBar: CalorieBarCardViewModel
 )
 
-class ShowHabitView(context: Context) : FrameLayout(context) {
+class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
+
+    val x = habits
+//    Log.d("test passed habit","yp")
 
     var onScoreCardSpinnerPosition: (position: Int) -> Unit = {}
     var onClickEditHistoryButton: () -> Unit = {}
     var onBarCardBoolSpinnerPosition: (position: Int) -> Unit = {}
     var onBarCardNumericalSpinnerPosition: (position: Int) -> Unit = {}
+    var onCalorieBoolSpinnerPosition: (position: Int) -> Unit = {}
+    var onCalorieNumericalSpinnerPosition: (position: Int) -> Unit = {}
 
     init {
         addView(binding.root)
@@ -57,9 +65,12 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.historyCard.onClickEditButton = { onClickEditHistoryButton() }
         binding.barCard.onBoolSpinnerPosition = { onBarCardBoolSpinnerPosition(it) }
         binding.barCard.onNumericalSpinnerPosition = { onBarCardNumericalSpinnerPosition(it) }
+        binding.calorieBarCard.onCalorieBoolSpinnerPosition = { onCalorieBoolSpinnerPosition(it) }
+        binding.calorieBarCard.onCalorieNumericalSpinnerPosition = { onCalorieNumericalSpinnerPosition(it) }
     }
 
-    fun update(data: ShowHabitViewModel) {
+    fun update(data: ShowHabitViewModel, habit: Habit) {
+            Log.d("test passed habit",habit.calorieBurned.toString())
         setupToolbar(binding.toolbar, title = data.title, color = data.color)
         binding.subtitleCard.update(data.subtitle)
         binding.overviewCard.update(data.overview)
@@ -70,6 +81,20 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.frequencyCard.update(data.frequency)
         binding.historyCard.update(data.history)
         binding.barCard.update(data.bar)
+
+        Log.d("test showhabitviewmodel",data.bar.toString());
+        Log.d("test showhabitviewmodel",data.calorieBar.toString());
+        var newCheckmarksList = mutableListOf<Checkmark>()
+        for (checkmark in data.calorieBar.checkmarks){
+            if(newCheckmarksList.size < data.calorieBar.checkmarks.size) {
+                var x = Checkmark(checkmark.timestamp, checkmark.value * habit.calorieBurned.toInt() );
+                newCheckmarksList.add(x)
+            }
+        }
+//        var newBarData = CalorieBarCardViewModel(newCheckmarksList,data.bar.bucketSize,data.bar.color,data.bar.isNumerical,data.bar.target,data.bar.numericalSpinnerPosition,data.bar.boolSpinnerPosition)
+        var newBarData = CalorieBarCardViewModel(newCheckmarksList,data.calorieBar.bucketSize,data.calorieBar.color,data.calorieBar.isNumerical,data.calorieBar.target,data.calorieBar.calorieNumericalSpinnerPosition,data.calorieBar.calorieBoolSpinnerPosition)
+        binding.calorieBarCard.update(newBarData)
+//        binding.calorieBarCard.update(data.calorieBar)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -110,6 +135,11 @@ class ShowHabitPresenter(
             habit = habit,
             firstWeekday = preferences.firstWeekday,
     )
+    private val calorieBarCardPresenter = CalorieBarCardPresenter(
+            habit = habit,
+            firstWeekday = preferences.firstWeekday,
+    )
+
 
     suspend fun present(): ShowHabitViewModel {
         return ShowHabitViewModel(
@@ -130,6 +160,11 @@ class ShowHabitPresenter(
                         boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
                         numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
                 ),
+                calorieBar = calorieBarCardPresenter.present(
+                        calorieBoolSpinnerPosition = preferences.calorieBarCardBoolSpinnerPosition,
+                        calorieNumericalSpinnerPosition = preferences.calorieBarCardNumericalSpinnerPosition,
+                ),
+
         )
     }
 }
