@@ -43,14 +43,12 @@ data class ShowHabitViewModel(
         val frequency: FrequencyCardViewModel,
         val history: HistoryCardViewModel,
         val bar: BarCardViewModel,
-        val calorieBar: CalorieBarCardViewModel
+        val calorieBar: CalorieBarCardViewModel,
+        val hydrationBar: HydrationBarCardViewModel,
 )
 
 class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
-
-    val x = habits
-//    Log.d("test passed habit","yp")
 
     var onScoreCardSpinnerPosition: (position: Int) -> Unit = {}
     var onClickEditHistoryButton: () -> Unit = {}
@@ -58,6 +56,8 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
     var onBarCardNumericalSpinnerPosition: (position: Int) -> Unit = {}
     var onCalorieBoolSpinnerPosition: (position: Int) -> Unit = {}
     var onCalorieNumericalSpinnerPosition: (position: Int) -> Unit = {}
+    var onHydrationBoolSpinnerPosition: (position: Int) -> Unit = {}
+    var onHydrationNumericalSpinnerPosition: (position: Int) -> Unit = {}
 
     init {
         addView(binding.root)
@@ -67,10 +67,11 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         binding.barCard.onNumericalSpinnerPosition = { onBarCardNumericalSpinnerPosition(it) }
         binding.calorieBarCard.onCalorieBoolSpinnerPosition = { onCalorieBoolSpinnerPosition(it) }
         binding.calorieBarCard.onCalorieNumericalSpinnerPosition = { onCalorieNumericalSpinnerPosition(it) }
+        binding.hydrationBarCard.onHydrationBoolSpinnerPosition = { onHydrationBoolSpinnerPosition(it) }
+        binding.hydrationBarCard.onHydrationNumericalSpinnerPosition = { onHydrationNumericalSpinnerPosition(it) }
     }
 
     fun update(data: ShowHabitViewModel, habit: Habit) {
-            Log.d("test passed habit",habit.calorieBurned.toString())
         setupToolbar(binding.toolbar, title = data.title, color = data.color)
         binding.subtitleCard.update(data.subtitle)
         binding.overviewCard.update(data.overview)
@@ -82,19 +83,28 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         binding.historyCard.update(data.history)
         binding.barCard.update(data.bar)
 
-        Log.d("test showhabitviewmodel",data.bar.toString());
-        Log.d("test showhabitviewmodel",data.calorieBar.toString());
-        var newCheckmarksList = mutableListOf<Checkmark>()
+        // checksmarks for calories
+        var newCalorieCheckmarksList = mutableListOf<Checkmark>()
         for (checkmark in data.calorieBar.checkmarks){
-            if(newCheckmarksList.size < data.calorieBar.checkmarks.size) {
-                var x = Checkmark(checkmark.timestamp, checkmark.value * habit.calorieBurned.toInt() );
-                newCheckmarksList.add(x)
+            if(newCalorieCheckmarksList.size < data.calorieBar.checkmarks.size) {
+                var newCalorie = Checkmark(checkmark.timestamp, checkmark.value * habit.calorieBurned.toInt() );
+                newCalorieCheckmarksList.add(newCalorie)
             }
         }
-//        var newBarData = CalorieBarCardViewModel(newCheckmarksList,data.bar.bucketSize,data.bar.color,data.bar.isNumerical,data.bar.target,data.bar.numericalSpinnerPosition,data.bar.boolSpinnerPosition)
-        var newBarData = CalorieBarCardViewModel(newCheckmarksList,data.calorieBar.bucketSize,data.calorieBar.color,data.calorieBar.isNumerical,data.calorieBar.target,data.calorieBar.calorieNumericalSpinnerPosition,data.calorieBar.calorieBoolSpinnerPosition)
-        binding.calorieBarCard.update(newBarData)
-//        binding.calorieBarCard.update(data.calorieBar)
+        var newCalorieBarData = CalorieBarCardViewModel(newCalorieCheckmarksList,data.calorieBar.bucketSize,data.calorieBar.color,data.calorieBar.isNumerical,data.calorieBar.target,data.calorieBar.calorieNumericalSpinnerPosition,data.calorieBar.calorieBoolSpinnerPosition)
+        binding.calorieBarCard.update(newCalorieBarData)
+
+        // checksmarks for hydration
+        var newHydrationCheckmarksList = mutableListOf<Checkmark>()
+        for (checkmark in data.hydrationBar.checkmarks){
+            if(newHydrationCheckmarksList.size < data.hydrationBar.checkmarks.size) {
+                var newHydration = Checkmark(checkmark.timestamp, checkmark.value * habit.hydration.toInt() );
+                newHydrationCheckmarksList.add(newHydration)
+            }
+        }
+        var newHydrationBarData = HydrationBarCardViewModel(newHydrationCheckmarksList,data.hydrationBar.bucketSize,data.hydrationBar.color,data.hydrationBar.isNumerical,data.hydrationBar.target,data.hydrationBar.hydrationNumericalSpinnerPosition,data.hydrationBar.hydrationBoolSpinnerPosition)
+        binding.hydrationBarCard.update(newHydrationBarData)
+
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -139,6 +149,11 @@ class ShowHabitPresenter(
             habit = habit,
             firstWeekday = preferences.firstWeekday,
     )
+    private val hydrationBarCardPresenter = HydrationBarCardPresenter(
+            habit = habit,
+            firstWeekday = preferences.firstWeekday,
+    )
+
 
 
     suspend fun present(): ShowHabitViewModel {
@@ -163,6 +178,10 @@ class ShowHabitPresenter(
                 calorieBar = calorieBarCardPresenter.present(
                         calorieBoolSpinnerPosition = preferences.calorieBarCardBoolSpinnerPosition,
                         calorieNumericalSpinnerPosition = preferences.calorieBarCardNumericalSpinnerPosition,
+                ),
+                hydrationBar = hydrationBarCardPresenter.present(
+                        hydrationBoolSpinnerPosition = preferences.hydrationBarCardBoolSpinnerPosition,
+                        hydrationNumericalSpinnerPosition = preferences.hydrationBarCardNumericalSpinnerPosition,
                 ),
 
         )

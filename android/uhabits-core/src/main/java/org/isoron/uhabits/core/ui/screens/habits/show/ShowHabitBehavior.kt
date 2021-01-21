@@ -62,6 +62,18 @@ class ShowHabitBehavior(
         screen.updateWidgets()
     }
 
+    fun onHydrationBarCardBoolSpinnerPosition(position: Int) {
+        preferences.hydrationBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onHydrationBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.hydrationBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
     fun onClickEditHistory() {
         screen.showHistoryEditorDialog(this)
     }

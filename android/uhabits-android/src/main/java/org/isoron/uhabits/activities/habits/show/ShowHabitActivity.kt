@@ -49,9 +49,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         val habitList = appComponent.habitList
         val habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
 
-//        show habit data
-        Log.d("check habits ",habit.toString());
-
         val preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         AndroidThemeSwitcher(this, preferences).apply()
@@ -98,10 +95,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         view.onScoreCardSpinnerPosition = behavior::onScoreCardSpinnerPosition
         view.onBarCardBoolSpinnerPosition = behavior::onBarCardBoolSpinnerPosition
         view.onBarCardNumericalSpinnerPosition = behavior::onBarCardNumericalSpinnerPosition
-//        view.onCalorieBoolSpinnerPosition = behavior::onBarCardBoolSpinnerPosition
-//        view.onCalorieNumericalSpinnerPosition = behavior::onBarCardNumericalSpinnerPosition
         view.onCalorieBoolSpinnerPosition = behavior::onCalorieBarCardBoolSpinnerPosition
         view.onCalorieNumericalSpinnerPosition = behavior::onCalorieBarCardNumericalSpinnerPosition
+        view.onHydrationBoolSpinnerPosition = behavior::onHydrationBarCardBoolSpinnerPosition
+        view.onHydrationNumericalSpinnerPosition = behavior::onHydrationBarCardNumericalSpinnerPosition
         view.onClickEditHistoryButton = behavior::onClickEditHistory
 
         setContentView(view)

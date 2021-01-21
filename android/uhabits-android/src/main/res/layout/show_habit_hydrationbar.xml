@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/calorieNumericalSpinner"
+            android:id="@+id/hydrationNumericalSpinner"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_alignParentEnd="true"
@@ -17,7 +17,7 @@
             android:theme="@style/SmallSpinner" />
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/calorieBoolSpinner"
+            android:id="@+id/hydrationBoolSpinner"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_alignParentEnd="true"
@@ -33,7 +33,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Calorie (kcal)" />
+            android:text="Hydration level (litre)" />
 
         <org.isoron.uhabits.activities.common.views.BarChart
             android:id="@+id/barChart"

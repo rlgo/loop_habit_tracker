@@ -77,6 +77,11 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
+            <org.isoron.uhabits.activities.habits.show.views.HydrationBarCard
+                android:id="@+id/hydrationBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
             <org.isoron.uhabits.activities.habits.show.views.HistoryCard
                 android:id="@+id/historyCard"
                 style="@style/Card"
