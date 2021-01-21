@@ -9,24 +9,24 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
-data class HydrationBarCardViewModel(
+data class ActivitydurationBarCardViewModel(
         val checkmarks: List<Checkmark>,
         val bucketSize: Int,
         val color: PaletteColor,
         val isNumerical: Boolean,
         val target: Double,
-        val hydrationNumericalSpinnerPosition: Int,
-        val hydrationBoolSpinnerPosition: Int,
+        val activitydurationNumericalSpinnerPosition: Int,
+        val activitydurationBoolSpinnerPosition: Int,
 )
 
-class HydrationBarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class ActivitydurationBarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private var binding = ShowHabitHydrationbarBinding.inflate(LayoutInflater.from(context), this)
-    var onHydrationNumericalSpinnerPosition: (position: Int) -> Unit = {}
-    var onHydrationBoolSpinnerPosition: (position: Int) -> Unit = {}
+    private var binding = ShowHabitActivitydurationbarBinding.inflate(LayoutInflater.from(context), this)
+    var onActivitydurationNumericalSpinnerPosition: (position: Int) -> Unit = {}
+    var onActivitydurationBoolSpinnerPosition: (position: Int) -> Unit = {}
 
 
-    fun update(data: HydrationBarCardViewModel) {
+    fun update(data: ActivitydurationBarCardViewModel) {
 
         binding.barChart.setCheckmarks(data.checkmarks)
         binding.barChart.setBucketSize(data.bucketSize)
@@ -35,28 +35,28 @@ class HydrationBarCard(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.title.setTextColor(androidColor)
         binding.barChart.setColor(androidColor)
         if (data.isNumerical) {
-            binding.hydrationBoolSpinner.visibility = GONE
+            binding.activitydurationBoolSpinner.visibility = GONE
             binding.barChart.setTarget(data.target)
         } else {
-            binding.hydrationNumericalSpinner.visibility = GONE
+            binding.activitydurationNumericalSpinner.visibility = GONE
             binding.barChart.setTarget(0.0)
         }
 
-        binding.hydrationNumericalSpinner.onItemSelectedListener = null
-        binding.hydrationNumericalSpinner.setSelection(data.hydrationNumericalSpinnerPosition)
-        binding.hydrationNumericalSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.activitydurationNumericalSpinner.onItemSelectedListener = null
+        binding.activitydurationNumericalSpinner.setSelection(data.activitydurationNumericalSpinnerPosition)
+        binding.activitydurationNumericalSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onHydrationNumericalSpinnerPosition(position)
+                onActivitydurationNumericalSpinnerPosition(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
 
-        binding.hydrationBoolSpinner.onItemSelectedListener = null
-        binding.hydrationBoolSpinner.setSelection(data.hydrationBoolSpinnerPosition)
-        binding.hydrationBoolSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.activitydurationBoolSpinner.onItemSelectedListener = null
+        binding.activitydurationBoolSpinner.setSelection(data.activitydurationBoolSpinnerPosition)
+        binding.activitydurationBoolSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onHydrationBoolSpinnerPosition(position)
+                onActivitydurationBoolSpinnerPosition(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -64,7 +64,7 @@ class HydrationBarCard(context: Context, attrs: AttributeSet) : LinearLayout(con
     }
 }
 
-class HydrationBarCardPresenter(
+class ActivitydurationBarCardPresenter(
         val habit: Habit,
         val firstWeekday: Int,
 ) {
@@ -72,27 +72,27 @@ class HydrationBarCardPresenter(
     val boolBucketSizes = intArrayOf(7, 31, 92, 365)
 
     fun present(
-            hydrationNumericalSpinnerPosition: Int,
-            hydrationBoolSpinnerPosition: Int,
-    ): HydrationBarCardViewModel {
+            activitydurationNumericalSpinnerPosition: Int,
+            activitydurationBoolSpinnerPosition: Int,
+    ): ActivitydurationBarCardViewModel {
         val bucketSize = if(habit.isNumerical) {
-            numericalBucketSizes[hydrationNumericalSpinnerPosition]
+            numericalBucketSizes[activitydurationNumericalSpinnerPosition]
         } else {
-            boolBucketSizes[hydrationBoolSpinnerPosition]
+            boolBucketSizes[activitydurationBoolSpinnerPosition]
         }
         val checkmarks = if (bucketSize == 1) {
             habit.checkmarks.all
         } else {
             habit.checkmarks.groupBy(getTruncateField(bucketSize), firstWeekday)
         }
-        return HydrationBarCardViewModel(
+        return ActivitydurationBarCardViewModel(
                 checkmarks = checkmarks,
                 bucketSize = bucketSize,
                 color = habit.color,
                 isNumerical = habit.isNumerical,
                 target = (habit.targetValue / habit.frequency.denominator * bucketSize),
-                hydrationNumericalSpinnerPosition = hydrationNumericalSpinnerPosition,
-                hydrationBoolSpinnerPosition = hydrationBoolSpinnerPosition,
+                activitydurationNumericalSpinnerPosition = activitydurationNumericalSpinnerPosition,
+                activitydurationBoolSpinnerPosition = activitydurationBoolSpinnerPosition,
         )
     }
 }

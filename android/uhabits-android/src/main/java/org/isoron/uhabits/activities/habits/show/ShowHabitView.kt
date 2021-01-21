@@ -45,6 +45,7 @@ data class ShowHabitViewModel(
         val bar: BarCardViewModel,
         val calorieBar: CalorieBarCardViewModel,
         val hydrationBar: HydrationBarCardViewModel,
+        val activitydurationBar: ActivitydurationBarCardViewModel,
 )
 
 class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
@@ -58,6 +59,8 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
     var onCalorieNumericalSpinnerPosition: (position: Int) -> Unit = {}
     var onHydrationBoolSpinnerPosition: (position: Int) -> Unit = {}
     var onHydrationNumericalSpinnerPosition: (position: Int) -> Unit = {}
+    var onActivitydurationBoolSpinnerPosition: (position: Int) -> Unit = {}
+    var onActivitydurationNumericalSpinnerPosition: (position: Int) -> Unit = {}
 
     init {
         addView(binding.root)
@@ -69,6 +72,8 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         binding.calorieBarCard.onCalorieNumericalSpinnerPosition = { onCalorieNumericalSpinnerPosition(it) }
         binding.hydrationBarCard.onHydrationBoolSpinnerPosition = { onHydrationBoolSpinnerPosition(it) }
         binding.hydrationBarCard.onHydrationNumericalSpinnerPosition = { onHydrationNumericalSpinnerPosition(it) }
+        binding.activitydurationBarCard.onActivitydurationBoolSpinnerPosition = { onActivitydurationBoolSpinnerPosition(it) }
+        binding.activitydurationBarCard.onActivitydurationNumericalSpinnerPosition = { onActivitydurationNumericalSpinnerPosition(it) }
     }
 
     fun update(data: ShowHabitViewModel, habit: Habit) {
@@ -83,7 +88,7 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         binding.historyCard.update(data.history)
         binding.barCard.update(data.bar)
 
-        // checksmarks for calories
+        // checkmarks for calories
         var newCalorieCheckmarksList = mutableListOf<Checkmark>()
         for (checkmark in data.calorieBar.checkmarks){
             if(newCalorieCheckmarksList.size < data.calorieBar.checkmarks.size) {
@@ -94,7 +99,7 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         var newCalorieBarData = CalorieBarCardViewModel(newCalorieCheckmarksList,data.calorieBar.bucketSize,data.calorieBar.color,data.calorieBar.isNumerical,data.calorieBar.target,data.calorieBar.calorieNumericalSpinnerPosition,data.calorieBar.calorieBoolSpinnerPosition)
         binding.calorieBarCard.update(newCalorieBarData)
 
-        // checksmarks for hydration
+        // checkmarks for hydration
         var newHydrationCheckmarksList = mutableListOf<Checkmark>()
         for (checkmark in data.hydrationBar.checkmarks){
             if(newHydrationCheckmarksList.size < data.hydrationBar.checkmarks.size) {
@@ -104,6 +109,17 @@ class ShowHabitView(context: Context, habits: Habit) : FrameLayout(context) {
         }
         var newHydrationBarData = HydrationBarCardViewModel(newHydrationCheckmarksList,data.hydrationBar.bucketSize,data.hydrationBar.color,data.hydrationBar.isNumerical,data.hydrationBar.target,data.hydrationBar.hydrationNumericalSpinnerPosition,data.hydrationBar.hydrationBoolSpinnerPosition)
         binding.hydrationBarCard.update(newHydrationBarData)
+
+        // checkmarks for activity duration
+        var newActivitydurationCheckmarksList = mutableListOf<Checkmark>()
+        for (checkmark in data.activitydurationBar.checkmarks){
+            if(newActivitydurationCheckmarksList.size < data.activitydurationBar.checkmarks.size) {
+                var newActivityduration = Checkmark(checkmark.timestamp, checkmark.value * (habit.activityDuration.toInt()/60) );
+                newActivitydurationCheckmarksList.add(newActivityduration)
+            }
+        }
+        var newActivitydurationBarData = ActivitydurationBarCardViewModel(newActivitydurationCheckmarksList,data.activitydurationBar.bucketSize,data.activitydurationBar.color,data.activitydurationBar.isNumerical,data.activitydurationBar.target,data.activitydurationBar.activitydurationNumericalSpinnerPosition,data.activitydurationBar.activitydurationBoolSpinnerPosition)
+        binding.activitydurationBarCard.update(newActivitydurationBarData)
 
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
@@ -153,6 +169,10 @@ class ShowHabitPresenter(
             habit = habit,
             firstWeekday = preferences.firstWeekday,
     )
+    private val activitydurationBarCardPresenter = ActivitydurationBarCardPresenter(
+            habit = habit,
+            firstWeekday = preferences.firstWeekday,
+    )
 
 
 
@@ -183,7 +203,12 @@ class ShowHabitPresenter(
                         hydrationBoolSpinnerPosition = preferences.hydrationBarCardBoolSpinnerPosition,
                         hydrationNumericalSpinnerPosition = preferences.hydrationBarCardNumericalSpinnerPosition,
                 ),
+                activitydurationBar = activitydurationBarCardPresenter.present(
+                        activitydurationBoolSpinnerPosition = preferences.activitydurationBarCardBoolSpinnerPosition,
+                        activitydurationNumericalSpinnerPosition = preferences.activitydurationBarCardNumericalSpinnerPosition,
+                ),
 
-        )
+
+                )
     }
 }

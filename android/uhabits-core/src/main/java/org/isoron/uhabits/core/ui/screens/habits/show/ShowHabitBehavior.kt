@@ -74,6 +74,18 @@ class ShowHabitBehavior(
         screen.updateWidgets()
     }
 
+    fun onActivitydurationBarCardBoolSpinnerPosition(position: Int) {
+        preferences.activitydurationBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onActivitydurationBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.activitydurationBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
     fun onClickEditHistory() {
         screen.showHistoryEditorDialog(this)
     }

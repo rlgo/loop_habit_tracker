@@ -82,6 +82,11 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
+            <org.isoron.uhabits.activities.habits.show.views.ActivitydurationBarCard
+                android:id="@+id/activitydurationBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
             <org.isoron.uhabits.activities.habits.show.views.HistoryCard
                 android:id="@+id/historyCard"
                 style="@style/Card"

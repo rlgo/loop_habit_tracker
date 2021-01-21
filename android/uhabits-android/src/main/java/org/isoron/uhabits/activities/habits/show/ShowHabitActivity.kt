@@ -99,6 +99,8 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         view.onCalorieNumericalSpinnerPosition = behavior::onCalorieBarCardNumericalSpinnerPosition
         view.onHydrationBoolSpinnerPosition = behavior::onHydrationBarCardBoolSpinnerPosition
         view.onHydrationNumericalSpinnerPosition = behavior::onHydrationBarCardNumericalSpinnerPosition
+        view.onActivitydurationBoolSpinnerPosition = behavior::onActivitydurationBarCardBoolSpinnerPosition
+        view.onActivitydurationNumericalSpinnerPosition = behavior::onActivitydurationBarCardNumericalSpinnerPosition
         view.onClickEditHistoryButton = behavior::onClickEditHistory
 
         setContentView(view)
