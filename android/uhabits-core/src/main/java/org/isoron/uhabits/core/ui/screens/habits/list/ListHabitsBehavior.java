@@ -107,13 +107,12 @@ public class ListHabitsBehavior
     }
 
     public void onSwipe(@NonNull List<Habit> deleteHabits){
-        screen.showDeleteConfirmationScreen(() ->
-        {
+
             adapter.performRemove(deleteHabits);
             commandRunner.execute(new DeleteHabitsCommand(habitList, deleteHabits),
                     null);
             adapter.clearSelection();
-        });
+
     }
 
     public void onExportCSV()

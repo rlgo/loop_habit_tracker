@@ -27,6 +27,7 @@ import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
+import androidx.core.content.ContextCompat
 import com.google.auto.factory.*
 import dagger.*
 import org.isoron.androidbase.activities.*
@@ -185,12 +186,15 @@ class HabitCardListView(
     }
 
     inner abstract class SwipeToDeleteCallBack : ItemTouchHelper.Callback() {
+        private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_white_24)
+        private val intrinsicWidth = deleteIcon!!.intrinsicWidth
+        private val intrinsicHeight = deleteIcon!!.intrinsicHeight
         private val background = ColorDrawable()
         private val backgroundColor = Color.parseColor("#f44336")
         private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
-            val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            val swipeFlag = ItemTouchHelper.LEFT
             return makeMovementFlags(0, swipeFlag)
         }
 
@@ -211,6 +215,17 @@ class HabitCardListView(
                     itemView.bottom
             )
             background.draw(c)
+
+            //Calculate position of delete icon
+            val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight)/2
+            val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+            val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+            val deleteIconRight = itemView.right - deleteIconMargin
+            val deleteIconBottom = deleteIconTop + intrinsicHeight
+
+            //Draw delete icon
+            deleteIcon!!.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+            deleteIcon.draw(c)
 
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
