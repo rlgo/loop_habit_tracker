@@ -84,14 +84,6 @@ class ListHabitsSelectionMenu @Inject constructor(
 
             else -> return false
         }
-        val deleteCallback = object: SwipeToDeleteCallback() {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                behavior.onDeleteHabits()
-                listAdapter.notifyItemRemoved(position)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(deleteCallback)
 
     }
 
