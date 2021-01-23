@@ -72,6 +72,22 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
+
+
+            <org.isoron.uhabits.activities.habits.show.views.HistoryCard
+                android:id="@+id/historyCard"
+                style="@style/Card"
+                android:gravity="center"
+                android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.StreakCardView
+                android:id="@+id/streakCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.FrequencyCard
+                android:id="@+id/frequencyCard"
+                style="@style/Card"/>
+
             <org.isoron.uhabits.activities.habits.show.views.CalorieBarCard
                 android:id="@+id/calorieBarCard"
                 style="@style/Card"
@@ -87,19 +103,14 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
-            <org.isoron.uhabits.activities.habits.show.views.HistoryCard
-                android:id="@+id/historyCard"
-                style="@style/Card"
-                android:gravity="center"
-                android:paddingBottom="0dp"/>
-
-            <org.isoron.uhabits.activities.habits.show.views.StreakCardView
-                android:id="@+id/streakCard"
-                style="@style/Card"/>
-
-            <org.isoron.uhabits.activities.habits.show.views.FrequencyCard
-                android:id="@+id/frequencyCard"
-                style="@style/Card"/>
+            <Button
+                android:id="@+id/googleFitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:backgroundTint="#0075D9"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Open Google Fit" />
 
         </LinearLayout>
     </ScrollView>
