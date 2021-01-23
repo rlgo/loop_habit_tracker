@@ -1,21 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
--->
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.isoron.uhabits">
@@ -33,7 +16,8 @@
         android:label="@string/main_activity_title"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-
+        <activity android:name=".ActivityTwo"></activity>
+        <activity android:name=".ActivityOne" />
         <activity
             android:name=".activities.habits.edit.EditHabitActivity"
             android:exported="true">
@@ -41,7 +25,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
-
         <activity
             android:name=".activities.sync.SyncActivity"
             android:exported="true">
@@ -60,14 +43,17 @@
             android:label="@string/main_activity_title"
             android:launchMode="singleTop">
             <tools:validation testUrl="https://loophabits.org/sync/123" />
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="https"
                     android:host="loophabits.org"
-                    android:pathPrefix="/sync" />
+                    android:pathPrefix="/sync"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -78,8 +64,11 @@
             android:targetActivity=".activities.habits.list.ListHabitsActivity">
             <intent-filter android:label="@string/main_activity_title">
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcut"/>
         </activity-alias>
 
         <activity
@@ -89,7 +78,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
-
         <activity
             android:name=".activities.settings.SettingsActivity"
             android:label="@string/settings">
@@ -97,12 +85,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
-
         <activity
             android:name=".activities.intro.IntroActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".widgets.activities.HabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
@@ -110,7 +96,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".widgets.activities.BooleanHabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
@@ -118,7 +103,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".widgets.activities.NumericalHabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
@@ -126,7 +110,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.about.AboutActivity"
             android:label="@string/about">
@@ -134,18 +117,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
-
         <activity
             android:name=".widgets.activities.NumericalCheckmarkWidgetActivity"
+            android:excludeFromRecents="true"
             android:label="NumericalCheckmarkWidget"
             android:noHistory="true"
-            android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
@@ -180,7 +161,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_history_info" />
         </receiver>
-
         <receiver
             android:name=".widgets.ScoreWidgetProvider"
             android:label="@string/score">
@@ -192,7 +172,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_score_info" />
         </receiver>
-
         <receiver
             android:name=".widgets.StreakWidgetProvider"
             android:label="@string/streaks">
@@ -204,7 +183,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_streak_info" />
         </receiver>
-
         <receiver
             android:name=".widgets.FrequencyWidgetProvider"
             android:label="@string/frequency">
@@ -216,7 +194,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_frequency_info" />
         </receiver>
-
         <receiver
             android:name=".widgets.TargetWidgetProvider"
             android:label="@string/target">
@@ -228,17 +205,17 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_target_info" />
         </receiver>
-
         <receiver android:name=".receivers.ReminderReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".receivers.WidgetReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE" />
+
                 <data
                     android:host="org.isoron.uhabits"
                     android:scheme="content" />
@@ -270,9 +247,7 @@
                     android:host="org.isoron.uhabits"
                     android:scheme="content" />
             </intent-filter>
-        </receiver>
-
-        <!-- Locale/Tasker -->
+        </receiver> <!-- Locale/Tasker -->
         <activity
             android:name=".automation.EditSettingActivity"
             android:exported="true"
@@ -281,9 +256,7 @@
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
-        </activity>
-
-        <!-- Locale/Tasker -->
+        </activity> <!-- Locale/Tasker -->
         <receiver
             android:name=".automation.FireSettingReceiver"
             android:exported="true">
