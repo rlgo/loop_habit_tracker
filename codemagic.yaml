@@ -4,7 +4,7 @@ workflows:
         scripts:
             - cd android && chmod +x gradlew && ./gradlew assembleDebug
         artifacts:
-            - app/build/outputs/**/*.apk
+            - android/uhabits-android/build/outputs/**/*.apk
         publishing:
             email:
                recipients:
