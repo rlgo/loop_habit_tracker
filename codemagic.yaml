@@ -10,3 +10,7 @@ workflows:
                recipients:
                    - dylansalim015@gmail.com
                    - fangwainam7@gmail.com
+            github_releases:
+                prerelease: false
+                artifact_patterns:
+                   - '*.apk'
