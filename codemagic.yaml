@@ -3,6 +3,7 @@ workflows:
         name: loop-habits
         scripts:
             - chmod +x ./android/gradlew
+            - ./android/gradlew build
             - ./android/gradlew assembleDebug
         artifacts:
             - app/build/outputs/**/*.apk
