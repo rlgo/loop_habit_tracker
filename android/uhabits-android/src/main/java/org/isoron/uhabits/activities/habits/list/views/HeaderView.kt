@@ -50,9 +50,9 @@ class HeaderView(
         }
 
     init {
-        setScrollerBucketSize(dim(R.dimen.scrollerBucketSize).toInt())
+        setScrollerBucketSize(dim(R.dimen.checkmarkWidth).toInt())
         setBackgroundColor(sres.getColor(R.attr.headerBackgroundColor))
-        if (SDK_INT >= LOLLIPOP) elevation = dp(5.0f)
+        if (SDK_INT >= LOLLIPOP) elevation = dp(2.0f)
     }
 
     override fun atMidnight() {
