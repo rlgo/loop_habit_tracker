@@ -1,0 +1,12 @@
+workflows:
+    android-app:
+        name: loop-habits
+        scripts:
+            - ./gradlew assembleDebug
+        artifacts:
+            - app/build/outputs/**/*.apk
+        publishing:
+            email:
+               recipients:
+                   - dylansalim015@gmail.com
+                   - fangwainam7@gmail.com
