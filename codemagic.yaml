@@ -2,7 +2,7 @@ workflows:
     android-app:
         name: loop-habits
         scripts:
-            - cd android && ./gradlew assembleDebug
+            - cd android && chmod +x gradlew && ./gradlew assembleDebug
         artifacts:
             - app/build/outputs/**/*.apk
         publishing:
