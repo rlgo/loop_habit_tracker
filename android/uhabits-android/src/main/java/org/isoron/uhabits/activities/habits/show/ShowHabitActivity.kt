@@ -18,19 +18,30 @@
  */
 package org.isoron.uhabits.activities.habits.show
 
-import android.content.*
-import android.os.*
-import android.util.Log
-import android.view.*
-import androidx.appcompat.app.*
-import kotlinx.coroutines.*
-import org.isoron.androidbase.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.ui.screens.habits.show.*
-import org.isoron.uhabits.intents.*
+import android.content.ContentUris
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.isoron.androidbase.AndroidDirFinder
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.activities.HabitsDirFinder
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.intents.IntentFactory
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
@@ -104,6 +115,25 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         view.onClickEditHistoryButton = behavior::onClickEditHistory
 
         setContentView(view)
+
+        val googleFitBtn = findViewById(R.id.googleFitBtn) as Button
+        googleFitBtn.setOnClickListener {
+            // your code to perform when the user clicks on the button
+            Toast.makeText(this, "Redirecting to Google Fit.", Toast.LENGTH_SHORT).show()
+            var intent = packageManager.getLaunchIntentForPackage("com.google.android.apps.fitness")
+            if (intent != null) {
+                // We found the activity now start the activity
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            } else {
+                // Bring user to the market or let them choose an app?
+                intent = Intent(Intent.ACTION_VIEW)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.data = Uri.parse("market://details?id=" + "com.google.android.apps.fitness")
+                startActivity(intent)
+            }
+        }
+
     }
 
     override fun onCreateOptionsMenu(m: Menu): Boolean {

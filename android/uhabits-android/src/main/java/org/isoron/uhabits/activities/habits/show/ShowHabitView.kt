@@ -24,6 +24,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import kotlinx.android.synthetic.main.show_habit.view.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
@@ -134,6 +135,7 @@ class ShowHabitPresenter(
         val habit: Habit,
         val context: Context,
         val preferences: Preferences,
+
 ) {
     private val subtitleCardPresenter = SubtitleCardPresenter(habit, context)
     private val overviewCardPresenter = OverviewCardPresenter(habit)

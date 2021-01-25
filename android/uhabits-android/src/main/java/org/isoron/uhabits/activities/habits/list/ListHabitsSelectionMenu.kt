@@ -64,6 +64,16 @@ class ListHabitsSelectionMenu @Inject constructor(
                 return true
             }
 
+            R.id.action_favourite_habit -> {
+                behavior.onFavouriteHabits()
+                return true
+            }
+
+            R.id.action_unfavourite_habit -> {
+                behavior.onUnfavouriteHabits()
+                return true
+            }
+
             R.id.action_delete -> {
                 behavior.onDeleteHabits()
                 return true
@@ -89,12 +99,16 @@ class ListHabitsSelectionMenu @Inject constructor(
         val itemColor = menu.findItem(R.id.action_color)
         val itemArchive = menu.findItem(R.id.action_archive_habit)
         val itemUnarchive = menu.findItem(R.id.action_unarchive_habit)
+        val itemFavourite = menu.findItem(R.id.action_favourite_habit)
+        val itemUnfavourite = menu.findItem(R.id.action_unfavourite_habit)
         val itemNotify = menu.findItem(R.id.action_notify)
 
         itemColor.isVisible = true
         itemEdit.isVisible = behavior.canEdit()
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
+        itemFavourite.isVisible = behavior.canFavourite()
+        itemUnfavourite.isVisible = behavior.canUnfavourite()
         setTitle(Integer.toString(listAdapter.selected.size))
         itemNotify.isVisible = prefs.isDeveloper
 

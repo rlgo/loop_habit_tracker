@@ -310,6 +310,14 @@ public class Habit {
         data.position = newPosition;
     }
 
+    public synchronized boolean isFavourite() {
+        return data.favourite;
+    }
+
+    public synchronized void setFavourite(boolean favourite) {
+        data.favourite = favourite;
+    }
+
     @NonNull
     public String getQuestion() {
         return data.question;
@@ -394,6 +402,7 @@ public class Habit {
 
         public int position;
 
+        public boolean favourite;
         public Integer enableGoogleFit;
 
         public double calorieBurned;
@@ -402,7 +411,8 @@ public class Habit {
 
         public double activityDuration;
 
-        public HabitData() {
+        public HabitData()
+        {
             this.color = new PaletteColor(8);
             this.archived = false;
             this.frequency = new Frequency(3, 7);
@@ -414,6 +424,7 @@ public class Habit {
             this.targetValue = 100;
             this.unit = "";
             this.position = 0;
+            this.favourite = false;
             this.enableGoogleFit = 0;
             this.calorieBurned = 0;
             this.hydration = 0;
@@ -434,6 +445,7 @@ public class Habit {
             this.unit = model.unit;
             this.reminder = model.reminder;
             this.position = model.position;
+            this.favourite = model.favourite;
             this.enableGoogleFit = model.enableGoogleFit;
             this.calorieBurned = model.calorieBurned;
             this.hydration = model.hydration;
@@ -455,6 +467,7 @@ public class Habit {
                     .append("unit", unit)
                     .append("reminder", reminder)
                     .append("position", position)
+                    .append("favourite", favourite)
                     .append("question", question)
                     .append("enableGoogleFit", enableGoogleFit)
                     .append("calorieBurned", calorieBurned)
@@ -484,6 +497,7 @@ public class Habit {
                     .append(unit, habitData.unit)
                     .append(reminder, habitData.reminder)
                     .append(position, habitData.position)
+                    .append(favourite, habitData.favourite)
                     .append(question, habitData.question)
                     .append(enableGoogleFit, habitData.enableGoogleFit)
                     .append(calorieBurned, habitData.calorieBurned)
@@ -507,6 +521,7 @@ public class Habit {
                     .append(unit)
                     .append(reminder)
                     .append(position)
+                    .append(favourite)
                     .append(question)
                     .append(enableGoogleFit)
                     .append(calorieBurned)
