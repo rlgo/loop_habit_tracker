@@ -1,0 +1,16 @@
+workflows:
+    android-app:
+        name: loop-habits
+        scripts:
+            - cd android && chmod +x gradlew && ./gradlew assembleDebug
+        artifacts:
+            - android/uhabits-android/build/outputs/**/*.apk
+        publishing:
+            email:
+               recipients:
+                   - dylansalim015@gmail.com
+                   - fangwainam7@gmail.com
+            github_releases:
+                prerelease: false
+                artifact_patterns:
+                   - '*.apk'
