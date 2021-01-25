@@ -1,13 +1,10 @@
 <h1 align="center">Loop Habit Tracker</h1>
 <p align="center">
-  <a href="https://github.com/iSoron/uhabits/actions?query=workflow%3A%22Build+%26+Test%22">
+  <a href="https://github.com/rlgo/uhabits/actions?query=workflow%3A%22Build+%26+Test%22">
     <img src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
   </a>
-  <a href="https://github.com/iSoron/uhabits/releases/latest">
-    <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
-  </a>
-  <a href="https://github.com/iSoron/uhabits/releases">
-    <img src="https://img.shields.io/github/v/release/isoron/uhabits?include_prereleases&label=pre-release" />
+  <a href="https://github.com/rlgo/loop_habit_tracker/releases/latest">
+    <img src="https://img.shields.io/github/v/release/rlgo/loop_habit_tracker" />
   </a>
 </p>
 
@@ -123,8 +120,8 @@ contribute, even if you are not a software developer.
 [screen6th]: screenshots/uhabits6_th.png
 [poedit]: http://translate.loophabits.org
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
-[releases]: https://github.com/iSoron/uhabits/releases
+[releases]: https://github.com/rlgo/loop_habit_tracker/releases
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
 [dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
-[build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
+[build]: https://github.com/rlgo/loop_habit_tracker/wiki/Developer-guidelines#building
 [beta]: https://play.google.com/apps/testing/org.isoron.uhabits
