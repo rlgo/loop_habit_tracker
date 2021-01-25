@@ -77,7 +77,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         clearInvocations(habitList);
 
         behavior = new ListHabitsBehavior(habitList, dirFinder, taskRunner, screen,
-            commandRunner, prefs, bugReporter);
+            commandRunner, prefs, bugReporter, adapter);
     }
 
     @Test
