@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="ActivityOne"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/short_label"
+        android:shortcutLongLabel="@string/long_label"
+        android:shortcutDisabledMessage="@string/disabled_message"
+        >
+        <!-- Set Intent and Category -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.isoron.uhabits"
+            android:targetClass="org.isoron.uhabits.activities.settings.SettingsActivity"
+        />
+        <category android:name="android.shortcut.conversation"/>
+
+    </shortcut>
+    <shortcut
+        android:shortcutId="ActivityThree"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/short_label_three"
+        android:shortcutLongLabel="@string/long_label_three"
+        android:shortcutDisabledMessage="@string/disabled_message_three"
+        >
+        <!-- Set Intent and Category -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.isoron.uhabits"
+            android:targetClass="org.isoron.uhabits.activities.about.AboutActivity"
+            />
+        <category android:name="android.shortcut.conversation"/>
+
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="ActivityTwo"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/short_label_two"
+        android:shortcutLongLabel="@string/long_label_two"
+        android:shortcutDisabledMessage="@string/disabled_message_two"
+        >
+        <!-- Set Intent and Category -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.isoron.uhabits"
+            android:targetClass="org.isoron.uhabits.activities.habits.edit.EditHabitActivity"
+            />
+        <category android:name="android.shortcut.conversation"/>
+
+    </shortcut>
+
+</shortcuts>

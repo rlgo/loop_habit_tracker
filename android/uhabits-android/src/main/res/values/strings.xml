@@ -35,6 +35,7 @@
     <string name="toast_habit_changed">Habit changed</string>
     <string name="toast_habit_archived">Habits archived</string>
     <string name="toast_habit_unarchived">Habits unarchived</string>
+    <string name="title_activity_show_habit" translatable="false" />
     <string name="toast_habit_favourited">Habits favourited</string>
     <string name="toast_habit_unfavourited">Habits unfavourited</string>
     <string name="title_activity_show_habit" translatable="false"/>
@@ -228,6 +229,15 @@
     <string name="sync_key_already_installed">Sync key already installed</string>
     <string name="pref_unknown_title">Show question marks for missing data</string>
     <string name="pref_unknown_description">Differentiate days without data from actual lapses. To enter a lapse, toggle twice.</string>
+    <string name="short_label_three">About</string>
+    <string name="long_label_three">About</string>
+    <string name="disabled_message_three">This shortcut three is disabled</string>
+    <string name="short_label">Setting</string>
+    <string name="long_label">Setting</string>
+    <string name="disabled_message">This shortcut is disabled</string>
+    <string name="short_label_two">Add Habit</string>
+    <string name="long_label_two">Create Habit</string>
+    <string name="disabled_message_two">This shortcut two is disabled</string>
     <string name="favourite_icon">★</string>
     <string name="unfavourite_icon">☆</string>
 </resources>
