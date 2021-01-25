@@ -102,21 +102,6 @@
                 android:id="@+id/frequencyCard"
                 style="@style/Card"/>
 
-            <org.isoron.uhabits.activities.habits.show.views.CalorieBarCard
-                android:id="@+id/calorieBarCard"
-                style="@style/Card"
-                android:gravity="center"/>
-
-            <org.isoron.uhabits.activities.habits.show.views.HydrationBarCard
-                android:id="@+id/hydrationBarCard"
-                style="@style/Card"
-                android:gravity="center"/>
-
-            <org.isoron.uhabits.activities.habits.show.views.ActivitydurationBarCard
-                android:id="@+id/activitydurationBarCard"
-                style="@style/Card"
-                android:gravity="center"/>
-
             <Button
                 android:id="@+id/googleFitBtn"
                 android:layout_width="match_parent"
