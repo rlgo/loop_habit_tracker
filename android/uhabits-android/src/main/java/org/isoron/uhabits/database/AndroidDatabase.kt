@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2015-2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -73,6 +73,7 @@ class AndroidDatabase(
                 is Long -> values.put(key, value)
                 is Double -> values.put(key, value)
                 is String -> values.put(key, value)
+                is Float -> values.put(key,value)
                 else -> throw IllegalStateException(
                         "unsupported type: " + value)
             }

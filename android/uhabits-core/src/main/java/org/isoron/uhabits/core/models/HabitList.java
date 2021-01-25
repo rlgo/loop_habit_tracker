@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,23 +19,24 @@
 
 package org.isoron.uhabits.core.models;
 
-import androidx.annotation.*;
+import com.opencsv.CSVWriter;
 
-import com.opencsv.*;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.isoron.uhabits.core.utils.*;
+import javax.annotation.concurrent.ThreadSafe;
 
-import java.io.*;
-import java.util.*;
-
-import javax.annotation.concurrent.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * An ordered collection of {@link Habit}s.
  */
 @ThreadSafe
-public abstract class HabitList implements Iterable<Habit>
-{
+public abstract class HabitList implements Iterable<Habit> {
     private final ModelObservable observable;
 
     @NonNull
@@ -48,14 +49,12 @@ public abstract class HabitList implements Iterable<Habit>
      * populated by some pre-existing habits, for example, from a certain
      * database.
      */
-    public HabitList()
-    {
+    public HabitList() {
         observable = new ModelObservable();
         filter = new HabitMatcherBuilder().setArchivedAllowed(true).build();
     }
 
-    protected HabitList(@NonNull HabitMatcher filter)
-    {
+    protected HabitList(@NonNull HabitMatcher filter) {
         observable = new ModelObservable();
         this.filter = filter;
     }
@@ -72,7 +71,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @throws IllegalArgumentException if the habit is already on the list.
      */
     public abstract void add(@NonNull Habit habit)
-        throws IllegalArgumentException;
+            throws IllegalArgumentException;
 
     /**
      * Returns the habit with specified id.
@@ -111,8 +110,7 @@ public abstract class HabitList implements Iterable<Habit>
     @NonNull
     public abstract HabitList getFiltered(HabitMatcher matcher);
 
-    public ModelObservable getObservable()
-    {
+    public ModelObservable getObservable() {
         return observable;
     }
 
@@ -143,8 +141,7 @@ public abstract class HabitList implements Iterable<Habit>
      */
     public abstract int indexOf(@NonNull Habit h);
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return size() == 0;
     }
 
@@ -160,8 +157,7 @@ public abstract class HabitList implements Iterable<Habit>
     /**
      * Removes all the habits from the list.
      */
-    public void removeAll()
-    {
+    public void removeAll() {
         List<Habit> copy = new LinkedList<>();
         for (Habit h : this) copy.add(h);
         for (Habit h : copy) remove(h);
@@ -176,10 +172,8 @@ public abstract class HabitList implements Iterable<Habit>
      */
     public abstract void reorder(@NonNull Habit from, @NonNull Habit to);
 
-    public void repair()
-    {
-        for (Habit h : this)
-        {
+    public void repair() {
+        for (Habit h : this) {
             h.getCheckmarks().invalidateNewerThan(Timestamp.ZERO);
             h.getStreaks().invalidateNewerThan(Timestamp.ZERO);
             h.getScores().invalidateNewerThan(Timestamp.ZERO);
@@ -211,8 +205,7 @@ public abstract class HabitList implements Iterable<Habit>
      *
      * @param habit the habit that has been modified.
      */
-    public void update(@NonNull Habit habit)
-    {
+    public void update(@NonNull Habit habit) {
         update(Collections.singletonList(habit));
     }
 
@@ -225,33 +218,39 @@ public abstract class HabitList implements Iterable<Habit>
      * @param out the writer that will receive the result
      * @throws IOException if write operations fail
      */
-    public void writeCSV(@NonNull Writer out) throws IOException
-    {
+    public void writeCSV(@NonNull Writer out) throws IOException {
         String header[] = {
-            "Position",
-            "Name",
-            "Question",
-            "Description",
-            "NumRepetitions",
-            "Interval",
-            "Color"
+                "Position",
+                "Name",
+                "Question",
+                "Description",
+                "NumRepetitions",
+                "Interval",
+                "Color",
+                "EnableGoogleFit",
+                "Calorie",
+                "Hydration",
+                "ActivityDuration"
         };
 
         CSVWriter csv = new CSVWriter(out);
         csv.writeNext(header, false);
 
-        for (Habit habit : this)
-        {
+        for (Habit habit : this) {
             Frequency freq = habit.getFrequency();
 
             String[] cols = {
-                String.format("%03d", indexOf(habit) + 1),
-                habit.getName(),
-                habit.getQuestion(),
-                habit.getDescription(),
-                Integer.toString(freq.getNumerator()),
-                Integer.toString(freq.getDenominator()),
-                habit.getColor().toCsvColor(),
+                    String.format("%03d", indexOf(habit) + 1),
+                    habit.getName(),
+                    habit.getQuestion(),
+                    habit.getDescription(),
+                    Integer.toString(freq.getNumerator()),
+                    Integer.toString(freq.getDenominator()),
+                    habit.getColor().toCsvColor(),
+                    habit.getEnableGoogleFit().toString(),
+                    Double.toString(habit.getCalorieBurned()),
+                    Double.toString(habit.getHydration()),
+                    Double.toString(habit.getActivityDuration())
             };
 
             csv.writeNext(cols, false);
@@ -262,8 +261,7 @@ public abstract class HabitList implements Iterable<Habit>
 
     public abstract void resort();
 
-    public enum Order
-    {
+    public enum Order {
         BY_NAME_ASC,
         BY_NAME_DESC,
         BY_COLOR_ASC,

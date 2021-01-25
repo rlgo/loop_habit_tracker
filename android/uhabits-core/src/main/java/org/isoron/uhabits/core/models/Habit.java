@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,30 +19,35 @@
 
 package org.isoron.uhabits.core.models;
 
-import androidx.annotation.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
 
-import org.apache.commons.lang3.builder.*;
+import java.util.Locale;
+import java.util.UUID;
 
-import java.util.*;
+import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Inject;
 
-import javax.annotation.concurrent.*;
-import javax.inject.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Checkmark.NO;
+import static org.isoron.uhabits.core.models.Checkmark.UNKNOWN;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
  * The thing that the user wants to track.
  */
 @ThreadSafe
-public class Habit
-{
+public class Habit {
     public static final int AT_LEAST = 0;
 
     public static final int AT_MOST = 1;
 
     public static final String HABIT_URI_FORMAT =
-        "content://org.isoron.uhabits/habit/%d";
+            "content://org.isoron.uhabits/habit/%d";
 
     public static final int NUMBER_HABIT = 1;
 
@@ -75,8 +80,7 @@ public class Habit
      * placed in the last position of the list of habits.
      */
     @Inject
-    Habit(@NonNull ModelFactory factory)
-    {
+    Habit(@NonNull ModelFactory factory) {
         this.data = new HabitData();
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -84,8 +88,7 @@ public class Habit
         repetitions = factory.buildRepetitionList(this);
     }
 
-    Habit(@NonNull ModelFactory factory, @NonNull HabitData data)
-    {
+    Habit(@NonNull ModelFactory factory, @NonNull HabitData data) {
         this.data = new HabitData(data);
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -97,8 +100,7 @@ public class Habit
     /**
      * Clears the reminder for a habit.
      */
-    public synchronized void clearReminder()
-    {
+    public synchronized void clearReminder() {
         data.reminder = null;
         observable.notifyListeners();
     }
@@ -108,8 +110,7 @@ public class Habit
      *
      * @param model the model whose attributes should be copied from
      */
-    public synchronized void copyFrom(@NonNull Habit model)
-    {
+    public synchronized void copyFrom(@NonNull Habit model) {
         this.data = new HabitData(model.data);
         observable.notifyListeners();
     }
@@ -118,69 +119,57 @@ public class Habit
      * List of checkmarks belonging to this habit.
      */
     @NonNull
-    public synchronized CheckmarkList getCheckmarks()
-    {
+    public synchronized CheckmarkList getCheckmarks() {
         return checkmarks;
     }
 
     @NonNull
-    public synchronized PaletteColor getColor()
-    {
+    public synchronized PaletteColor getColor() {
         return data.color;
     }
 
-    public synchronized void setColor(@NonNull PaletteColor color)
-    {
+    public synchronized void setColor(@NonNull PaletteColor color) {
         data.color = color;
     }
 
     @NonNull
-    public synchronized String getDescription()
-    {
+    public synchronized String getDescription() {
         return data.description;
     }
 
-    public synchronized void setDescription(@NonNull String description)
-    {
+    public synchronized void setDescription(@NonNull String description) {
         data.description = description;
     }
 
     @NonNull
-    public synchronized Frequency getFrequency()
-    {
+    public synchronized Frequency getFrequency() {
         return data.frequency;
     }
 
-    public synchronized void setFrequency(@NonNull Frequency frequency)
-    {
+    public synchronized void setFrequency(@NonNull Frequency frequency) {
         data.frequency = frequency;
         invalidateNewerThan(Timestamp.ZERO);
     }
 
     @Nullable
-    public synchronized Long getId()
-    {
+    public synchronized Long getId() {
         return id;
     }
 
-    public synchronized void setId(@Nullable Long id)
-    {
+    public synchronized void setId(@Nullable Long id) {
         this.id = id;
     }
 
     @NonNull
-    public synchronized String getName()
-    {
+    public synchronized String getName() {
         return data.name;
     }
 
-    public synchronized void setName(@NonNull String name)
-    {
+    public synchronized void setName(@NonNull String name) {
         data.name = name;
     }
 
-    public ModelObservable getObservable()
-    {
+    public ModelObservable getObservable() {
         return observable;
     }
 
@@ -195,66 +184,55 @@ public class Habit
      * @throws IllegalStateException if habit has no reminder
      */
     @NonNull
-    public synchronized Reminder getReminder()
-    {
+    public synchronized Reminder getReminder() {
         if (data.reminder == null) throw new IllegalStateException();
         return data.reminder;
     }
 
-    public synchronized void setReminder(@Nullable Reminder reminder)
-    {
+    public synchronized void setReminder(@Nullable Reminder reminder) {
         data.reminder = reminder;
     }
 
     @NonNull
-    public RepetitionList getRepetitions()
-    {
+    public RepetitionList getRepetitions() {
         return repetitions;
     }
 
     @NonNull
-    public ScoreList getScores()
-    {
+    public ScoreList getScores() {
         return scores;
     }
 
     @NonNull
-    public StreakList getStreaks()
-    {
+    public StreakList getStreaks() {
         return streaks;
     }
 
-    public synchronized int getTargetType()
-    {
+    public synchronized int getTargetType() {
         return data.targetType;
     }
 
-    public synchronized void setTargetType(int targetType)
-    {
+    public synchronized void setTargetType(int targetType) {
         if (targetType != AT_LEAST && targetType != AT_MOST)
             throw new IllegalArgumentException(
-                String.format("invalid targetType: %d", targetType));
+                    String.format("invalid targetType: %d", targetType));
         data.targetType = targetType;
     }
 
-    public synchronized double getTargetValue()
-    {
+    public synchronized double getTargetValue() {
         return data.targetValue;
     }
 
-    public synchronized void setTargetValue(double targetValue)
-    {
+    public synchronized void setTargetValue(double targetValue) {
         if (targetValue < 0) throw new IllegalArgumentException();
         data.targetValue = targetValue;
     }
 
-    public synchronized int getType()
-    {
+    public synchronized int getType() {
         return data.type;
     }
 
-    public synchronized void setType(int type)
-    {
+    public synchronized void setType(int type) {
         if (type != YES_NO_HABIT && type != NUMBER_HABIT)
             throw new IllegalArgumentException();
 
@@ -262,13 +240,11 @@ public class Habit
     }
 
     @NonNull
-    public synchronized String getUnit()
-    {
+    public synchronized String getUnit() {
         return data.unit;
     }
 
-    public synchronized void setUnit(@NonNull String unit)
-    {
+    public synchronized void setUnit(@NonNull String unit) {
         data.unit = unit;
     }
 
@@ -277,13 +253,11 @@ public class Habit
      *
      * @return the URI
      */
-    public String getUriString()
-    {
+    public String getUriString() {
         return String.format(Locale.US, HABIT_URI_FORMAT, getId());
     }
 
-    public synchronized boolean hasId()
-    {
+    public synchronized boolean hasId() {
         return getId() != null;
     }
 
@@ -292,58 +266,47 @@ public class Habit
      *
      * @return true if habit has reminder, false otherwise
      */
-    public synchronized boolean hasReminder()
-    {
+    public synchronized boolean hasReminder() {
         return data.reminder != null;
     }
 
-    public void invalidateNewerThan(Timestamp timestamp)
-    {
+    public void invalidateNewerThan(Timestamp timestamp) {
         getScores().invalidateNewerThan(timestamp);
         getCheckmarks().invalidateNewerThan(timestamp);
         getStreaks().invalidateNewerThan(timestamp);
     }
 
-    public synchronized boolean isArchived()
-    {
+    public synchronized boolean isArchived() {
         return data.archived;
     }
 
-    public synchronized void setArchived(boolean archived)
-    {
+    public synchronized void setArchived(boolean archived) {
         data.archived = archived;
     }
 
-    public synchronized boolean isCompletedToday()
-    {
+    public synchronized boolean isCompletedToday() {
         int todayCheckmark = getCheckmarks().getTodayValue();
-        if (isNumerical())
-        {
-            if(getTargetType() == AT_LEAST)
+        if (isNumerical()) {
+            if (getTargetType() == AT_LEAST)
                 return todayCheckmark / 1000.0 >= data.targetValue;
             else
                 return todayCheckmark / 1000.0 <= data.targetValue;
-        }
-        else return (todayCheckmark != NO && todayCheckmark != UNKNOWN);
+        } else return (todayCheckmark != NO && todayCheckmark != UNKNOWN);
     }
 
-    public synchronized boolean isNumerical()
-    {
+    public synchronized boolean isNumerical() {
         return data.type == NUMBER_HABIT;
     }
 
-    public HabitData getData()
-    {
+    public HabitData getData() {
         return new HabitData(data);
     }
 
-    public Integer getPosition()
-    {
+    public Integer getPosition() {
         return data.position;
     }
 
-    public void setPosition(int newPosition)
-    {
+    public void setPosition(int newPosition) {
         data.position = newPosition;
     }
 
@@ -356,29 +319,57 @@ public class Habit
     }
 
     @NonNull
-    public String getQuestion()
-    {
+    public String getQuestion() {
         return data.question;
     }
 
-    public void setQuestion(@NonNull String question)
-    {
+    public void setQuestion(@NonNull String question) {
         data.question = question;
     }
 
+    @NotNull
+    public synchronized Boolean getEnableGoogleFit() {
+        return data.enableGoogleFit == 1;
+    }
+
+    public synchronized void setEnableGoogleFit(@NotNull Boolean enableGoogleFit) {
+        data.enableGoogleFit = enableGoogleFit ? 1 : 0;
+    }
+
+    public synchronized double getCalorieBurned() {
+        return data.calorieBurned;
+    }
+
+    public synchronized void setCalorieBurned(double calorieBurned) {
+        data.calorieBurned = calorieBurned;
+    }
+
+    public synchronized double getHydration() {
+        return data.hydration;
+    }
+
+    public synchronized void setHydration(double hydration) {
+        data.hydration = hydration;
+    }
+
+    public synchronized double getActivityDuration() {
+        return data.activityDuration;
+    }
+
+    public synchronized void setActivityDuration(double activityDuration) {
+        data.activityDuration = activityDuration;
+    }
+
     @NonNull
-    public String getUUID()
-    {
+    public String getUUID() {
         return data.uuid;
     }
 
-    public void setUUID(@NonNull String uuid)
-    {
+    public void setUUID(@NonNull String uuid) {
         data.uuid = uuid;
     }
 
-    public static final class HabitData
-    {
+    public static final class HabitData {
         @NonNull
         public String name;
 
@@ -413,6 +404,14 @@ public class Habit
 
         public boolean favourite;
 
+        public Integer enableGoogleFit;
+
+        public double calorieBurned;
+
+        public double hydration;
+
+        public double activityDuration;
+
         public HabitData()
         {
             this.color = new PaletteColor(8);
@@ -427,11 +426,14 @@ public class Habit
             this.unit = "";
             this.position = 0;
             this.favourite = false;
+            this.enableGoogleFit = 0;
+            this.calorieBurned = 0;
+            this.hydration = 0;
+            this.activityDuration = 0;
             this.uuid = UUID.randomUUID().toString().replace("-", "");
         }
 
-        public HabitData(@NonNull HabitData model)
-        {
+        public HabitData(@NonNull HabitData model) {
             this.name = model.name;
             this.description = model.description;
             this.question = model.question;
@@ -445,33 +447,39 @@ public class Habit
             this.reminder = model.reminder;
             this.position = model.position;
             this.favourite = model.favourite;
+            this.enableGoogleFit = model.enableGoogleFit;
+            this.calorieBurned = model.calorieBurned;
+            this.hydration = model.hydration;
+            this.activityDuration = model.activityDuration;
             this.uuid = model.uuid;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return new ToStringBuilder(this, defaultToStringStyle())
-                .append("name", name)
-                .append("description", description)
-                .append("frequency", frequency)
-                .append("color", color)
-                .append("archived", archived)
-                .append("targetType", targetType)
-                .append("targetValue", targetValue)
-                .append("type", type)
-                .append("unit", unit)
-                .append("reminder", reminder)
-                .append("position", position)
+                    .append("name", name)
+                    .append("description", description)
+                    .append("frequency", frequency)
+                    .append("color", color)
+                    .append("archived", archived)
+                    .append("targetType", targetType)
+                    .append("targetValue", targetValue)
+                    .append("type", type)
+                    .append("unit", unit)
+                    .append("reminder", reminder)
+                    .append("position", position)
                     .append("favourite", favourite)
-                .append("question", question)
-                .append("uuid", uuid)
-                .toString();
+                    .append("question", question)
+                    .append("enableGoogleFit", enableGoogleFit)
+                    .append("calorieBurned", calorieBurned)
+                    .append("hydration", hydration)
+                    .append("activityDuration", activityDuration)
+                    .append("uuid", uuid)
+                    .toString();
         }
 
         @Override
-        public boolean equals(Object o)
-        {
+        public boolean equals(Object o) {
             if (this == o) return true;
 
             if (o == null || getClass() != o.getClass()) return false;
@@ -479,51 +487,57 @@ public class Habit
             HabitData habitData = (HabitData) o;
 
             return new EqualsBuilder()
-                .append(color, habitData.color)
-                .append(archived, habitData.archived)
-                .append(targetType, habitData.targetType)
-                .append(targetValue, habitData.targetValue)
-                .append(type, habitData.type)
-                .append(name, habitData.name)
-                .append(description, habitData.description)
-                .append(frequency, habitData.frequency)
-                .append(unit, habitData.unit)
-                .append(reminder, habitData.reminder)
-                .append(position, habitData.position)
+                    .append(color, habitData.color)
+                    .append(archived, habitData.archived)
+                    .append(targetType, habitData.targetType)
+                    .append(targetValue, habitData.targetValue)
+                    .append(type, habitData.type)
+                    .append(name, habitData.name)
+                    .append(description, habitData.description)
+                    .append(frequency, habitData.frequency)
+                    .append(unit, habitData.unit)
+                    .append(reminder, habitData.reminder)
+                    .append(position, habitData.position)
                     .append(favourite, habitData.favourite)
-                .append(question, habitData.question)
-                .append(uuid, habitData.uuid)
-                .isEquals();
+                    .append(question, habitData.question)
+                    .append(enableGoogleFit, habitData.enableGoogleFit)
+                    .append(calorieBurned, habitData.calorieBurned)
+                    .append(hydration, habitData.hydration)
+                    .append(activityDuration, habitData.activityDuration)
+                    .append(uuid, habitData.uuid)
+                    .isEquals();
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return new HashCodeBuilder(17, 37)
-                .append(name)
-                .append(description)
-                .append(frequency)
-                .append(color)
-                .append(archived)
-                .append(targetType)
-                .append(targetValue)
-                .append(type)
-                .append(unit)
-                .append(reminder)
-                .append(position)
+                    .append(name)
+                    .append(description)
+                    .append(frequency)
+                    .append(color)
+                    .append(archived)
+                    .append(targetType)
+                    .append(targetValue)
+                    .append(type)
+                    .append(unit)
+                    .append(reminder)
+                    .append(position)
                     .append(favourite)
-                .append(question)
-                .append(uuid)
-                .toHashCode();
+                    .append(question)
+                    .append(enableGoogleFit)
+                    .append(calorieBurned)
+                    .append(hydration)
+                    .append(activityDuration)
+                    .append(uuid)
+                    .toHashCode();
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new ToStringBuilder(this, defaultToStringStyle())
-            .append("id", id)
-            .append("data", data)
-            .toString();
+                .append("id", id)
+                .append("data", data)
+                .toString();
     }
 }

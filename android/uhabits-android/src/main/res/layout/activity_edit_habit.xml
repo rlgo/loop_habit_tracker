@@ -208,9 +208,77 @@
                         style="@style/FormDropdown"
                         android:id="@+id/reminderDatePicker"
                         android:text="" />
+
                 </LinearLayout>
             </FrameLayout>
 
+<!--            Enable Google Fit-->
+            <FrameLayout style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/enable_google_fit" />
+                    <Switch
+                        android:id="@+id/fitSwitchInput"
+                        style="@style/FormInput"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+                </LinearLayout>
+            </FrameLayout>
+
+<!--           Calorie Burned -->
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:id="@+id/fl_calorie_burned"
+                android:visibility="gone">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/estimated_calorie_burned" />
+                    <EditText
+                        style="@style/FormInput"
+                        android:id="@+id/calorieBurnedInput"
+                        android:maxLines="1"
+                        android:ems="10"
+                        android:hint="@string/calorie_in_kcal"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!--           Hydration -->
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:id="@+id/fl_hydration"
+                android:visibility="gone">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/hydration_level" />
+                    <EditText
+                        style="@style/FormInput"
+                        android:id="@+id/hydrationInput"
+                        android:maxLines="1"
+                        android:ems="10"
+                        android:hint="@string/hydration_level_in_litre"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!--           Activity Duration -->
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:id="@+id/fl_activity_duration"
+                android:visibility="gone">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/activity_duration" />
+                    <EditText
+                        style="@style/FormInput"
+                        android:id="@+id/activityDurationInput"
+                        android:maxLines="1"
+                        android:ems="10"
+                        android:hint="@string/activity_duration_in_second"/>
+                </LinearLayout>
+            </FrameLayout>
 
             <!-- Notes -->
             <FrameLayout style="@style/FormOuterBox">
