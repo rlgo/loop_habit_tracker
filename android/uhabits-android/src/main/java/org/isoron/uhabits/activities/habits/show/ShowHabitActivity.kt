@@ -43,7 +43,6 @@ import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
 import org.isoron.uhabits.intents.IntentFactory
 
-
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
     private lateinit var commandRunner: CommandRunner
@@ -55,6 +54,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         val appComponent = (applicationContext as HabitsApplication).component
         val habitList = appComponent.habitList

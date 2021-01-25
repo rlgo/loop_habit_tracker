@@ -403,7 +403,6 @@ public class Habit {
         public int position;
 
         public boolean favourite;
-
         public Integer enableGoogleFit;
 
         public double calorieBurned;

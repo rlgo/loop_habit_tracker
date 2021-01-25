@@ -90,7 +90,7 @@ public class ListHabitsBehavior
         CheckmarkList checkmarks = habit.getCheckmarks();
         double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
 
-        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
+        screen.showNumberPicker(habit, timestamp,oldValue / 1000, habit.getUnit(), newValue ->
         {
             newValue = Math.round(newValue * 1000);
             commandRunner.execute(
@@ -215,7 +215,9 @@ public class ListHabitsBehavior
 
         void showMessage(@NonNull Message m);
 
-        void showNumberPicker(double value,
+        void showNumberPicker(Habit habit,
+                              Timestamp timestamp,
+                              double value,
                               @NonNull String unit,
                               @NonNull NumberPickerCallback callback);
 

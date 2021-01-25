@@ -24,10 +24,12 @@ import android.os.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.utils.GoogleFitUtils
 
 abstract class HabitsActivity : BaseActivity() {
     lateinit var component: HabitsActivityComponent
     lateinit var appComponent: HabitsApplicationComponent
+    lateinit var googleFitUtils: GoogleFitUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,14 @@ abstract class HabitsActivity : BaseActivity() {
                 .build()
 
         component.themeSwitcher.apply()
+
+        this.googleFitUtils = GoogleFitUtils(this)
+        googleFitUtils.getPermission(this)
+    }
+
+    override fun onActivityResult(request: Int, result: Int, data: Intent?) {
+        super.onActivityResult(request, result, data)
+        googleFitUtils.onPermissionResult(this, request, result, data)
     }
 
     private fun getHabitFromIntent(habitList: HabitList): Habit? {

@@ -23,8 +23,6 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.BitmapFactory.*
-import android.media.AudioAttributes
-import android.net.Uri
 import android.os.*
 import android.os.Build.VERSION.*
 import android.util.*
@@ -45,7 +43,7 @@ class AndroidNotificationTray
         @AppContext private val context: Context,
         private val pendingIntents: PendingIntentFactory,
         private val preferences: Preferences,
-        private val ringtoneManager: RingtoneManager,
+        private val ringtoneManager: RingtoneManager
 ) : NotificationTray.SystemTray {
     private var active = HashSet<Int>()
 
@@ -109,7 +107,6 @@ class AndroidNotificationTray
         // WearableExtender.
         val wearableExtender = WearableExtender().setBackground(wearableBg)
 
-
         val defaultText = context.getString(R.string.default_reminder_question)
         val builder = Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -117,10 +114,7 @@ class AndroidNotificationTray
                 .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .setPriority(PRIORITY_HIGH)
-                .setVisibility(VISIBILITY_PRIVATE)
-                .setSound(ringtoneManager.getURI())
-                .setVibrate(longArrayOf(500,1000,500,1000,500,1000,500,1000))
+                .setSound(null)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
@@ -156,26 +150,12 @@ class AndroidNotificationTray
     companion object {
         private const val REMINDERS_CHANNEL_ID = "REMINDERS"
         fun createAndroidNotificationChannel(context: Context) {
-
-
-            val changesRingtone = Uri.parse((ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+ context.applicationContext.packageName + "/" + R.raw.customnotification))
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
                     as NotificationManager
             if (SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(REMINDERS_CHANNEL_ID,
                                                   context.resources.getString(R.string.reminder),
-                                                  NotificationManager.IMPORTANCE_HIGH)
-
-                channel.enableLights(true)
-                channel.enableVibration(true)
-
-
-                val audioAttributes = AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                        .build()
-
-                channel.setSound(changesRingtone, audioAttributes)
+                                                  NotificationManager.IMPORTANCE_DEFAULT)
                 notificationManager.createNotificationChannel(channel)
             }
         }

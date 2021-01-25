@@ -128,6 +128,7 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
+                habit?.let { GoogleFitUtils(context).processHabit(it, value, timestamp) }
                 habit?.let { behavior.onToggle(it, timestamp, value) }
             }
         }
