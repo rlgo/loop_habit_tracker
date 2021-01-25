@@ -76,6 +76,9 @@ class HabitCardView(
             scoreRing.precision = 1.0f / 16
         }
 
+
+
+
     var unit
         get() = numberPanel.units
         set(value) {
@@ -112,6 +115,8 @@ class HabitCardView(
             }
             setThickness(thickness)
         }
+
+
 
         label = TextView(context).apply {
             maxLines = 2
@@ -202,7 +207,12 @@ class HabitCardView(
 
         val c = getActiveColor(h)
         label.apply {
-            text = h.name
+            if(h.isFavourite){
+                text = "★  " + h.name
+            } else{
+                text = "     " + h.name
+            }
+
             setTextColor(c)
         }
         scoreRing.apply {

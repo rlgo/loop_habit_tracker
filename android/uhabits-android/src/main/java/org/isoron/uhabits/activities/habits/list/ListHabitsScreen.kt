@@ -233,7 +233,9 @@ class ListHabitsScreen
             is CreateHabitCommand -> return R.string.toast_habit_created
             is DeleteHabitsCommand -> return R.string.toast_habit_deleted
             is EditHabitCommand -> return R.string.toast_habit_changed
+            is FavouriteHabitsCommand ->return R.string.toast_habit_favourited
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
+            is UnfavouriteHabitsCommand -> return R.string.toast_habit_unfavourited
             else -> return null
         }
     }
