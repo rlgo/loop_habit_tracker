@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -27,7 +27,7 @@ import org.isoron.uhabits.core.ui.screens.habits.show.*
 class ShowHabitMenu(
         val activity: ShowHabitActivity,
         val behavior: ShowHabitMenuBehavior,
-        val preferences: Preferences,
+        val preferences: Preferences
 ) {
     fun onCreateOptionsMenu(menu: Menu): Boolean {
         activity.menuInflater.inflate(R.menu.show_habit, menu)

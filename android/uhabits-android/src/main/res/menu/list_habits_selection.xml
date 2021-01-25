@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -40,6 +40,16 @@
         android:id="@+id/action_unarchive_habit"
         android:title="@string/unarchive"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_favourite_habit"
+        android:title="@string/favourite"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_unfavourite_habit"
+        android:title="@string/unfavourite"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete"

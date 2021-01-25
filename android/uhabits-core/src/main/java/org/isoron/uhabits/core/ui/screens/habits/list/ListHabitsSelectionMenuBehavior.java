@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -63,6 +63,14 @@ public class ListHabitsSelectionMenuBehavior
         return true;
     }
 
+    public boolean canFavourite()
+    {
+        for (Habit h : adapter.getSelected())
+            if (h.isFavourite()) return false;
+
+        return true;
+    }
+
     public boolean canEdit()
     {
         return (adapter.getSelected().size() == 1);
@@ -76,10 +84,25 @@ public class ListHabitsSelectionMenuBehavior
         return true;
     }
 
+    public boolean canUnfavourite()
+    {
+        for (Habit h : adapter.getSelected())
+            if (!h.isFavourite()) return false;
+
+        return true;
+    }
+
     public void onArchiveHabits()
     {
         commandRunner.execute(
             new ArchiveHabitsCommand(habitList, adapter.getSelected()), null);
+        adapter.clearSelection();
+    }
+
+    public void onFavouriteHabits()
+    {
+        commandRunner.execute(
+                new FavouriteHabitsCommand(habitList, adapter.getSelected()), null);
         adapter.clearSelection();
     }
 
@@ -119,6 +142,13 @@ public class ListHabitsSelectionMenuBehavior
     {
         commandRunner.execute(
             new UnarchiveHabitsCommand(habitList, adapter.getSelected()), null);
+        adapter.clearSelection();
+    }
+
+    public void onUnfavouriteHabits()
+    {
+        commandRunner.execute(
+                new UnfavouriteHabitsCommand(habitList, adapter.getSelected()), null);
         adapter.clearSelection();
     }
 

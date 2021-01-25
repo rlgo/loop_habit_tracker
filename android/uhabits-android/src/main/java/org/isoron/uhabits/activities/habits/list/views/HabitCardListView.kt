@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -20,11 +20,13 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.os.*
-import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
+import androidx.core.content.ContextCompat
 import com.google.auto.factory.*
 import dagger.*
 import org.isoron.androidbase.activities.*
@@ -52,6 +54,16 @@ class HabitCardListView(
 
     private val attachedHolders = mutableListOf<HabitCardViewHolder>()
     private val touchHelper = ItemTouchHelper(TouchHelperCallback()).apply {
+        attachToRecyclerView(this@HabitCardListView)
+    }
+    val swipeToDeleteCallBack = object : SwipeToDeleteCallBack(){
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            controller.get().onItemSwipe(position)
+            adapter.notifyItemRemoved(position)
+        }
+    }
+    val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack).apply {
         attachToRecyclerView(this@HabitCardListView)
     }
 
@@ -129,6 +141,7 @@ class HabitCardListView(
         fun drop(from: Int, to: Int) {}
         fun onItemClick(pos: Int) {}
         fun onItemLongClick(pos: Int) {}
+        fun onItemSwipe(pos: Int) {}
         fun startDrag(position: Int) {}
     }
 
@@ -168,5 +181,53 @@ class HabitCardListView(
 
         override fun isItemViewSwipeEnabled() = false
         override fun isLongPressDragEnabled() = false
+
+    }
+
+    inner abstract class SwipeToDeleteCallBack : ItemTouchHelper.Callback() {
+        private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_delete_white_24)
+        private val intrinsicWidth = deleteIcon!!.intrinsicWidth
+        private val intrinsicHeight = deleteIcon!!.intrinsicHeight
+        private val background = ColorDrawable()
+        private val backgroundColor = Color.parseColor("#f44336")
+
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+            val swipeFlag = ItemTouchHelper.LEFT
+            return makeMovementFlags(0, swipeFlag)
+        }
+
+        override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean {
+            return false
+        }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            val itemView = viewHolder.itemView
+            val itemHeight = itemView.bottom - itemView.top
+
+            //Draw red delete background
+            background.color = backgroundColor
+            background.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+            )
+            background.draw(c)
+
+            //Calculate position of delete icon
+            val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight)/2
+            val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+            val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+            val deleteIconRight = itemView.right - deleteIconMargin
+            val deleteIconBottom = deleteIconTop + intrinsicHeight
+
+            //Draw delete icon
+            deleteIcon!!.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+            deleteIcon.draw(c)
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
+
+        override fun isItemViewSwipeEnabled() = true
     }
 }

@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -25,6 +26,8 @@
     <string name="delete">Delete</string>
     <string name="archive">Archive</string>
     <string name="unarchive">Unarchive</string>
+    <string name="favourite">Favourite</string>
+    <string name="unfavourite">Unfavourite</string>
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
     <string name="toast_habit_created">Habit created</string>
@@ -33,6 +36,9 @@
     <string name="toast_habit_archived">Habits archived</string>
     <string name="toast_habit_unarchived">Habits unarchived</string>
     <string name="title_activity_show_habit" translatable="false" />
+    <string name="toast_habit_favourited">Habits favourited</string>
+    <string name="toast_habit_unfavourited">Habits unfavourited</string>
+    <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
     <string name="history">History</string>
@@ -164,6 +170,9 @@
     <string name="change_value">Change value</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
+    <string name="estimated_calorie_burned">Estimated Calorie Burned</string>
+    <string name="hydration_level">Hydration Level</string>
+    <string name="activity_duration">Activity Duration</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>
@@ -179,6 +188,7 @@
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>
+    <string name="enable_google_fit">Enable Google Fit</string>
     <string name="example_notes">(Optional)</string>
     <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
     <string name="measurable">Measurable</string>
@@ -190,6 +200,9 @@
     <string name="example_target">e.g. 15</string>
     <string name="measurable_short_example">e.g. Run</string>
     <string name="measurable_question_example">e.g. How many miles did you run today?</string>
+    <string name="calorie_in_kcal">Calorie in kcal</string>
+    <string name="hydration_level_in_litre">Hydration Level in Litre</string>
+    <string name="activity_duration_in_second">Activity Duration in Seconds</string>
     <string name="measurable_units_example">e.g. miles</string>
     <string name="every_month">Every month</string>
     <string name="validation_cannot_be_blank">Cannot be blank</string>
@@ -225,4 +238,6 @@
     <string name="short_label_two">Add Habit</string>
     <string name="long_label_two">Create Habit</string>
     <string name="disabled_message_two">This shortcut two is disabled</string>
+    <string name="favourite_icon">★</string>
+    <string name="unfavourite_icon">☆</string>
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -76,6 +76,9 @@ class HabitCardView(
             scoreRing.precision = 1.0f / 16
         }
 
+
+
+
     var unit
         get() = numberPanel.units
         set(value) {
@@ -113,6 +116,8 @@ class HabitCardView(
             setThickness(thickness)
         }
 
+
+
         label = TextView(context).apply {
             maxLines = 2
             ellipsize = TextUtils.TruncateAt.END
@@ -123,6 +128,7 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
+                habit?.let { GoogleFitUtils(context).processHabit(it, value, timestamp) }
                 habit?.let { behavior.onToggle(it, timestamp, value) }
             }
         }
@@ -201,7 +207,12 @@ class HabitCardView(
 
         val c = getActiveColor(h)
         label.apply {
-            text = h.name
+            if(h.isFavourite){
+                text = "★  " + h.name
+            } else{
+                text = "     " + h.name
+            }
+
             setTextColor(c)
         }
         scoreRing.apply {

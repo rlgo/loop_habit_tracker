@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
@@ -57,6 +57,9 @@ public class ListHabitsBehavior
     @NonNull
     private final BugReporter bugReporter;
 
+    @NonNull
+    private final ListHabitsSelectionMenuBehavior.Adapter adapter;
+
     @Inject
     public ListHabitsBehavior(@NonNull HabitList habitList,
                               @NonNull DirFinder dirFinder,
@@ -64,7 +67,8 @@ public class ListHabitsBehavior
                               @NonNull Screen screen,
                               @NonNull CommandRunner commandRunner,
                               @NonNull Preferences prefs,
-                              @NonNull BugReporter bugReporter)
+                              @NonNull BugReporter bugReporter,
+                              @NonNull ListHabitsSelectionMenuBehavior.Adapter adapter)
     {
         this.habitList = habitList;
         this.dirFinder = dirFinder;
@@ -73,6 +77,7 @@ public class ListHabitsBehavior
         this.commandRunner = commandRunner;
         this.prefs = prefs;
         this.bugReporter = bugReporter;
+        this.adapter = adapter;
     }
 
     public void onClickHabit(@NonNull Habit h)
@@ -85,13 +90,20 @@ public class ListHabitsBehavior
         CheckmarkList checkmarks = habit.getCheckmarks();
         double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
 
-        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
+        screen.showNumberPicker(habit, timestamp,oldValue / 1000, habit.getUnit(), newValue ->
         {
             newValue = Math.round(newValue * 1000);
             commandRunner.execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
                 habit.getId());
         });
+    }
+
+    public void onSwipe(@NonNull List<Habit> deleteHabits){
+            adapter.performRemove(deleteHabits);
+            commandRunner.execute(new DeleteHabitsCommand(habitList, deleteHabits),
+                    null);
+            adapter.clearSelection();
     }
 
     public void onExportCSV()
@@ -203,7 +215,9 @@ public class ListHabitsBehavior
 
         void showMessage(@NonNull Message m);
 
-        void showNumberPicker(double value,
+        void showNumberPicker(Habit habit,
+                              Timestamp timestamp,
+                              double value,
                               @NonNull String unit,
                               @NonNull NumberPickerCallback callback);
 

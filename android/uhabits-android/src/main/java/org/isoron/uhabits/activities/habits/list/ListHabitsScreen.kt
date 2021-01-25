@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -39,6 +39,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.tasks.*
+import org.isoron.uhabits.utils.GoogleFitUtils
 import java.io.*
 import javax.inject.*
 
@@ -209,10 +210,15 @@ class ListHabitsScreen
         activity.showDialog(picker, "picker")
     }
 
-    override fun showNumberPicker(value: Double,
+    override fun showNumberPicker(habit: Habit,
+                                  timestamp: Timestamp,
+                                  value: Double,
                                   unit: String,
                                   callback: ListHabitsBehavior.NumberPickerCallback) {
-        numberPickerFactory.create(value, unit, callback).show()
+        numberPickerFactory.create(value, unit) { newValue ->
+            GoogleFitUtils(activity).processNumericHabit(habit, newValue, timestamp)
+            callback.onNumberPicked(newValue)
+        }.show()
     }
 
     override fun showConfirmInstallSyncKey(callback: OnConfirmedCallback) {
@@ -227,7 +233,9 @@ class ListHabitsScreen
             is CreateHabitCommand -> return R.string.toast_habit_created
             is DeleteHabitsCommand -> return R.string.toast_habit_deleted
             is EditHabitCommand -> return R.string.toast_habit_changed
+            is FavouriteHabitsCommand ->return R.string.toast_habit_favourited
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
+            is UnfavouriteHabitsCommand -> return R.string.toast_habit_unfavourited
             else -> return null
         }
     }

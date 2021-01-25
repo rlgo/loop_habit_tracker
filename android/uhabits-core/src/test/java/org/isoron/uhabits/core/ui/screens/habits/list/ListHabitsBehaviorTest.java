@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -77,7 +77,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         clearInvocations(habitList);
 
         behavior = new ListHabitsBehavior(habitList, dirFinder, taskRunner, screen,
-            commandRunner, prefs, bugReporter);
+            commandRunner, prefs, bugReporter, adapter);
     }
 
     @Test

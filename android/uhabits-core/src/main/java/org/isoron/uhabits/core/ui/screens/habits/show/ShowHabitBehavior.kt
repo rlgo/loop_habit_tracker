@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -50,6 +50,42 @@ class ShowHabitBehavior(
         screen.updateWidgets()
     }
 
+    fun onCalorieBarCardBoolSpinnerPosition(position: Int) {
+        preferences.calorieBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onCalorieBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.calorieBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
+    fun onHydrationBarCardBoolSpinnerPosition(position: Int) {
+        preferences.hydrationBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onHydrationBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.hydrationBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
+    fun onActivitydurationBarCardBoolSpinnerPosition(position: Int) {
+        preferences.activitydurationBarCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onActivitydurationBarCardNumericalSpinnerPosition(position: Int) {
+        preferences.activitydurationBarCardNumericalSpinnerPosition = position
+        screen.refresh()
+        screen.updateWidgets()
+    }
+
     fun onClickEditHistory() {
         screen.showHistoryEditorDialog(this)
     }
@@ -86,7 +122,7 @@ class ShowHabitBehavior(
     interface Screen {
         fun showNumberPicker(value: Double,
                              unit: String,
-                             callback: ListHabitsBehavior.NumberPickerCallback)
+                             callback: (Double) -> Unit)
 
         fun updateWidgets()
         fun refresh()
