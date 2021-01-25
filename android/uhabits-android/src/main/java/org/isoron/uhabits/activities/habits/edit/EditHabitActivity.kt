@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,24 +19,31 @@
 
 package org.isoron.uhabits.activities.habits.edit
 
-import android.content.res.*
-import android.graphics.*
-import android.os.*
-import android.text.format.*
-import android.view.*
-import android.widget.*
-import androidx.appcompat.app.*
-import androidx.fragment.app.*
-import com.android.datetimepicker.time.*
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.View
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import com.android.datetimepicker.time.RadialPickerLayout
+import com.android.datetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_edit_habit.*
-import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.commands.*
+import org.isoron.androidbase.utils.ColorUtils
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.FrequencyPickerDialog
+import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
+import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.databinding.ActivityEditHabitBinding
+import org.isoron.uhabits.utils.formatTime
+import org.isoron.uhabits.utils.toFormattedString
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 
 class EditHabitActivity : AppCompatActivity() {
@@ -55,6 +62,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderHour = -1
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
+    var enableGoogleFit: Boolean = false
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -84,6 +92,30 @@ class EditHabitActivity : AppCompatActivity() {
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
+            enableGoogleFit = habit.enableGoogleFit
+            binding.fitSwitchInput.isChecked = habit.enableGoogleFit
+            if (habit.enableGoogleFit) {
+                binding.flCalorieBurned.visibility = View.VISIBLE
+                binding.flHydration.visibility = View.VISIBLE
+                binding.flActivityDuration.visibility = View.VISIBLE
+
+                binding.calorieBurnedInput.setText(
+                        when (habit.calorieBurned.toString() == "0.0") {
+                            true -> ""
+                            false -> habit.calorieBurned.toString()
+                        })
+                binding.hydrationInput.setText(
+                        when (habit.hydration.toString() == "0.0") {
+                            true -> ""
+                            false -> habit.hydration.toString()
+                        })
+                binding.activityDurationInput.setText(
+                        when (habit.activityDuration.toString() == "0.0") {
+                            true -> ""
+                            false -> habit.activityDuration.toString()
+                        }
+                )
+            }
         } else {
             habitType = intent.getIntExtra("habitType", Habit.YES_NO_HABIT)
         }
@@ -143,7 +175,7 @@ class EditHabitActivity : AppCompatActivity() {
             arrayAdapter.add(getString(R.string.every_week))
             arrayAdapter.add(getString(R.string.every_month))
             builder.setAdapter(arrayAdapter) { dialog, which ->
-                freqDen = when(which) {
+                freqDen = when (which) {
                     1 -> 7
                     2 -> 30
                     else -> 1
@@ -187,8 +219,23 @@ class EditHabitActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "dayPicker")
         }
 
+        binding.fitSwitchInput.setOnCheckedChangeListener { _, isChecked ->
+            run {
+                enableGoogleFit = isChecked
+                if (isChecked) {
+                    fl_calorie_burned.visibility = View.VISIBLE
+                    fl_hydration.visibility = View.VISIBLE
+                    fl_activity_duration.visibility = View.VISIBLE
+                } else {
+                    fl_calorie_burned.visibility = View.GONE
+                    fl_hydration.visibility = View.GONE
+                    fl_activity_duration.visibility = View.GONE
+                }
+            }
+        }
+
         binding.buttonSave.setOnClickListener {
-            if(validate()) save()
+            if (validate()) save()
         }
 
         for (fragment in supportFragmentManager.fragments) {
@@ -223,6 +270,19 @@ class EditHabitActivity : AppCompatActivity() {
             habit.unit = unitInput.text.trim().toString()
         }
         habit.type = habitType
+        habit.enableGoogleFit = enableGoogleFit
+
+        if (enableGoogleFit) {
+            habit.calorieBurned = calorieBurnedInput.text.toString().toDoubleOrNull()
+                    ?: 0.0
+            habit.hydration = hydrationInput.text.toString().toDoubleOrNull()
+                    ?: 0.0
+            habit.activityDuration = activityDurationInput.text.toString().toDoubleOrNull() ?: 0.0
+        } else {
+            habit.calorieBurned = 0.0
+            habit.hydration = 0.0
+            habit.activityDuration = 0.0
+        }
 
         val command = if (habitId >= 0) {
             component.editHabitCommandFactory.create(component.habitList, original, habit)
@@ -240,11 +300,11 @@ class EditHabitActivity : AppCompatActivity() {
             isValid = false
         }
         if (habitType == Habit.NUMBER_HABIT) {
-            if(unitInput.text.isEmpty()) {
+            if (unitInput.text.isEmpty()) {
                 unitInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
-            if(targetInput.text.isEmpty()) {
+            if (targetInput.text.isEmpty()) {
                 targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
@@ -275,7 +335,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
             else -> "Unknown"
         }
-        binding.numericalFrequencyPicker.text = when(freqDen) {
+        binding.numericalFrequencyPicker.text = when (freqDen) {
             1 -> getString(R.string.every_day)
             7 -> getString(R.string.every_week)
             30 -> getString(R.string.every_month)

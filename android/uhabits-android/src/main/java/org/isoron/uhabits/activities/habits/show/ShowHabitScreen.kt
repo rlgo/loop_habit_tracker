@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -38,7 +38,7 @@ class ShowHabitScreen(
         val widgetUpdater: WidgetUpdater,
 ) : ShowHabitBehavior.Screen, ShowHabitMenuBehavior.Screen {
 
-    override fun showNumberPicker(value: Double, unit: String, callback: ListHabitsBehavior.NumberPickerCallback) {
+    override fun showNumberPicker(value: Double, unit: String, callback: (Double) -> Unit) {
         numberPickerFactory.create(value, unit, callback).show();
     }
 

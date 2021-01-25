@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -120,7 +120,7 @@
                 bottom of the list. If you qualify, please feel free to submit
                 a pull request adding yourself here.
                 -->
-                <TextView style="@style/About.Item" android:text="Álinson Santos Xavier"/>
+                <TextView style="@style/About.Item" android:text="linson Santos Xavier"/>
                 <TextView style="@style/About.Item" android:text="Victor Yu"/>
                 <TextView style="@style/About.Item" android:text="Joseph Tran"/>
                 <TextView style="@style/About.Item" android:text="Luboš Luňák"/>
@@ -271,7 +271,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Álinson Santos Xavier (Português)"/>
+                    android:text="linson Santos Xavier (Português)"/>
 
                 <TextView
                     style="@style/About.Item"

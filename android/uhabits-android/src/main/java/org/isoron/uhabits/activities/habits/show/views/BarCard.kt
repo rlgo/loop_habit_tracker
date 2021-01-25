@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -37,17 +37,47 @@ data class BarCardViewModel(
         val boolSpinnerPosition: Int,
 )
 
+//var newCheckmarksList2 = mutableListOf<Checkmark>()
+//var counter = 0;
+
 class BarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private var binding = ShowHabitBarBinding.inflate(LayoutInflater.from(context), this)
     var onNumericalSpinnerPosition: (position: Int) -> Unit = {}
     var onBoolSpinnerPosition: (position: Int) -> Unit = {}
 
+//    var checkmarksList = listOf<Checkmark>()
+//    var newCheckmarksList = mutableListOf<Checkmark>()
+
+//    Log.d("test","test log");
+
+
     fun update(data: BarCardViewModel) {
+
+//        checkmarksList = data.checkmarks;
+//        for (checkmark in data.checkmarks){
+//                if(newCheckmarksList2.size < checkmarksList.size) {
+//    //            var newCheckmarkValue = checkmark.value * 50;
+//                    var x = Checkmark(checkmark.timestamp, checkmark.value * 5);
+//                    newCheckmarksList2.add(x)
+//                }
+//        }
+
         binding.barChart.setCheckmarks(data.checkmarks)
+//        binding.barChart.setCheckmarks(newCheckmarksList2)
+
         binding.barChart.setBucketSize(data.bucketSize)
+
+
+//        Log.d("test",checkmarksList.toString());
+//        Log.d("new check mark list", newCheckmarksList2.toString());
+//        Log.d("length of initial",checkmarksList.size.toString());
+//        Log.d("length of new",newCheckmarksList2.size.toString());
+
+
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
+//        binding.title.setText("oi")
         binding.barChart.setColor(androidColor)
         if (data.isNumerical) {
             binding.boolSpinner.visibility = GONE

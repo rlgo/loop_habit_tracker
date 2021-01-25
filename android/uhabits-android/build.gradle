@@ -82,6 +82,8 @@ dependencies {
     implementation project(":android-base")
     implementation project(":android-pickers")
 
+    implementation 'com.google.android.gms:play-services-fitness:20.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'

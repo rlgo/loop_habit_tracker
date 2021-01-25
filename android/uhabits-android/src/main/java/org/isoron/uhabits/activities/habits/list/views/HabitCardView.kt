@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -123,6 +123,7 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
+                habit?.let { GoogleFitUtils(context).processHabit(it, value, timestamp) }
                 habit?.let { behavior.onToggle(it, timestamp, value) }
             }
         }

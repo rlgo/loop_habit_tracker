@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -20,6 +20,7 @@ package org.isoron.uhabits.activities.habits.show
 
 import android.content.*
 import android.os.*
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.*
 import kotlinx.coroutines.*
@@ -43,14 +44,16 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         val appComponent = (applicationContext as HabitsApplication).component
         val habitList = appComponent.habitList
         val habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
+
         val preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         AndroidThemeSwitcher(this, preferences).apply()
 
-        view = ShowHabitView(this)
+        view = ShowHabitView(this,habit)
         presenter = ShowHabitPresenter(
                 context = this,
                 habit = habit,
@@ -92,6 +95,12 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         view.onScoreCardSpinnerPosition = behavior::onScoreCardSpinnerPosition
         view.onBarCardBoolSpinnerPosition = behavior::onBarCardBoolSpinnerPosition
         view.onBarCardNumericalSpinnerPosition = behavior::onBarCardNumericalSpinnerPosition
+        view.onCalorieBoolSpinnerPosition = behavior::onCalorieBarCardBoolSpinnerPosition
+        view.onCalorieNumericalSpinnerPosition = behavior::onCalorieBarCardNumericalSpinnerPosition
+        view.onHydrationBoolSpinnerPosition = behavior::onHydrationBarCardBoolSpinnerPosition
+        view.onHydrationNumericalSpinnerPosition = behavior::onHydrationBarCardNumericalSpinnerPosition
+        view.onActivitydurationBoolSpinnerPosition = behavior::onActivitydurationBarCardBoolSpinnerPosition
+        view.onActivitydurationNumericalSpinnerPosition = behavior::onActivitydurationBarCardNumericalSpinnerPosition
         view.onClickEditHistoryButton = behavior::onClickEditHistory
 
         setContentView(view)
@@ -121,8 +130,11 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     }
 
     fun refresh() {
+            val appComponentP = (applicationContext as HabitsApplication).component
+    val habitListP = appComponentP.habitList
+    val Passedhabit = habitListP.getById(ContentUris.parseId(intent.data!!))!!
         scope.launch {
-            view.update(presenter.present())
+            view.update(presenter.present(),Passedhabit)
         }
     }
 }

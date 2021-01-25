@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2020 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 linson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -53,9 +53,9 @@ class RingtoneManager
 
     fun getURI(): Uri? {
         var ringtoneUri: Uri? = null
-        val defaultRingtoneUri = ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+ context.applicationContext.packageName + "/" + R.raw.customnotification
+        val defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI
         val prefRingtoneUri = prefs.getString("pref_ringtone_uri",
-                                              defaultRingtoneUri)!!
+                                              defaultRingtoneUri.toString())!!
         if (prefRingtoneUri.isNotEmpty())
             ringtoneUri = Uri.parse(prefRingtoneUri)
 

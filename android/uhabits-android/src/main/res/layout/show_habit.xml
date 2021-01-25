@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 linson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -65,10 +65,25 @@
             <org.isoron.uhabits.activities.habits.show.views.ScoreCard
                 android:id="@+id/scoreCard"
                 style="@style/Card"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <org.isoron.uhabits.activities.habits.show.views.BarCard
                 android:id="@+id/barCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.CalorieBarCard
+                android:id="@+id/calorieBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.HydrationBarCard
+                android:id="@+id/hydrationBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.ActivitydurationBarCard
+                android:id="@+id/activitydurationBarCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
