@@ -53,9 +53,9 @@ class RingtoneManager
 
     fun getURI(): Uri? {
         var ringtoneUri: Uri? = null
-        val defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI
+        val defaultRingtoneUri = ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+ context.applicationContext.packageName + "/" + R.raw.customnotification
         val prefRingtoneUri = prefs.getString("pref_ringtone_uri",
-                                              defaultRingtoneUri.toString())!!
+                                              defaultRingtoneUri)!!
         if (prefRingtoneUri.isNotEmpty())
             ringtoneUri = Uri.parse(prefRingtoneUri)
 
