@@ -4,7 +4,7 @@
     <img src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
   </a>
   <a href="https://github.com/rlgo/loop_habit_tracker/releases/latest">
-    <img src="https://img.shields.io/github/v/release/rlgo/loop_habit_tracker" />
+    <img src="https://img.shields.io/github/v/release/rlgo/Motrix" />
   </a>
 </p>
 
