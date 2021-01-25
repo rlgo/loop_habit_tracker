@@ -347,6 +347,14 @@ public class Habit
         data.position = newPosition;
     }
 
+    public synchronized boolean isFavourite() {
+        return data.favourite;
+    }
+
+    public synchronized void setFavourite(boolean favourite) {
+        data.favourite = favourite;
+    }
+
     @NonNull
     public String getQuestion()
     {
@@ -403,6 +411,8 @@ public class Habit
 
         public int position;
 
+        public boolean favourite;
+
         public HabitData()
         {
             this.color = new PaletteColor(8);
@@ -416,6 +426,7 @@ public class Habit
             this.targetValue = 100;
             this.unit = "";
             this.position = 0;
+            this.favourite = false;
             this.uuid = UUID.randomUUID().toString().replace("-", "");
         }
 
@@ -433,6 +444,7 @@ public class Habit
             this.unit = model.unit;
             this.reminder = model.reminder;
             this.position = model.position;
+            this.favourite = model.favourite;
             this.uuid = model.uuid;
         }
 
@@ -451,6 +463,7 @@ public class Habit
                 .append("unit", unit)
                 .append("reminder", reminder)
                 .append("position", position)
+                    .append("favourite", favourite)
                 .append("question", question)
                 .append("uuid", uuid)
                 .toString();
@@ -477,6 +490,7 @@ public class Habit
                 .append(unit, habitData.unit)
                 .append(reminder, habitData.reminder)
                 .append(position, habitData.position)
+                    .append(favourite, habitData.favourite)
                 .append(question, habitData.question)
                 .append(uuid, habitData.uuid)
                 .isEquals();
@@ -497,6 +511,7 @@ public class Habit
                 .append(unit)
                 .append(reminder)
                 .append(position)
+                    .append(favourite)
                 .append(question)
                 .append(uuid)
                 .toHashCode();

@@ -51,6 +51,9 @@ public class HabitRecord
     @Column
     public Integer position;
 
+    @Column
+    public Integer favourite;
+
     @Column(name = "reminder_hour")
     public Integer reminderHour;
 
@@ -97,6 +100,7 @@ public class HabitRecord
         this.targetValue = model.getTargetValue();
         this.unit = model.getUnit();
         this.position = model.getPosition();
+        this.favourite = model.isFavourite() ? 1 : 0;
         this.question = model.getQuestion();
         this.uuid = model.getUUID();
 
@@ -130,6 +134,7 @@ public class HabitRecord
         habit.setTargetValue(this.targetValue);
         habit.setUnit(this.unit);
         habit.setPosition(this.position);
+        habit.setFavourite(this.favourite != 0);
         habit.setUUID(this.uuid);
 
         if (reminderHour != null && reminderMin != null)
