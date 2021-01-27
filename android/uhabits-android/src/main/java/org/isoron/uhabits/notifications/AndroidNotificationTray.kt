@@ -23,6 +23,8 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.BitmapFactory.*
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.*
 import android.os.Build.VERSION.*
 import android.util.*
@@ -69,11 +71,11 @@ class AndroidNotificationTray
         } catch (e: RuntimeException) {
             // Some Xiaomi phones produce a RuntimeException if custom notification sounds are used.
             Log.i("AndroidNotificationTray",
-                  "Failed to show notification. Retrying without sound.")
+                    "Failed to show notification. Retrying without sound.")
             val n = buildNotification(habit,
-                                      reminderTime,
-                                      timestamp,
-                                      disableSound = true)
+                    reminderTime,
+                    timestamp,
+                    disableSound = true)
             notificationManager.notify(notificationId, n)
 
         }
@@ -114,7 +116,10 @@ class AndroidNotificationTray
                 .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .setSound(null)
+                .setSound(ringtoneManager.getURI())
+                .setPriority(PRIORITY_HIGH)
+                .setVisibility(VISIBILITY_PRIVATE)
+                .setVibrate(longArrayOf(500,1000,500,1000,500,1000,500,1000))
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
@@ -138,8 +143,8 @@ class AndroidNotificationTray
             builder.setLights(Color.RED, 1000, 1000)
 
         val snoozeAction = Action(R.drawable.ic_action_snooze,
-                                  context.getString(R.string.snooze),
-                                  pendingIntents.snoozeNotification(habit))
+                context.getString(R.string.snooze),
+                pendingIntents.snoozeNotification(habit))
         wearableExtender.addAction(snoozeAction)
         builder.addAction(snoozeAction)
 
@@ -150,12 +155,23 @@ class AndroidNotificationTray
     companion object {
         private const val REMINDERS_CHANNEL_ID = "REMINDERS"
         fun createAndroidNotificationChannel(context: Context) {
+            val changesRingtone = Uri.parse((ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+ context.applicationContext.packageName + "/" + R.raw.customnotification))
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
                     as NotificationManager
             if (SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(REMINDERS_CHANNEL_ID,
-                                                  context.resources.getString(R.string.reminder),
-                                                  NotificationManager.IMPORTANCE_DEFAULT)
+                        context.resources.getString(R.string.reminder),
+                        NotificationManager.IMPORTANCE_HIGH)
+                channel.enableLights(true)
+                channel.enableVibration(true)
+
+
+                val audioAttributes = AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build()
+
+                channel.setSound(changesRingtone, audioAttributes)
                 notificationManager.createNotificationChannel(channel)
             }
         }
