@@ -13,11 +13,6 @@ allowing you to achieve your long-term goals. Detailed graphs and statistics
 show you how your habits improved over time. It is completely ad-free and open
 source.
 
-<p align="center">
-  <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
-  <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Get it on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
-</p>
-
 ## Screenshots
 
 [![Main screen][screen1th]][screen1]
@@ -56,42 +51,11 @@ There are no advertisements, annoying notifications or intrusive permissions in 
 * <b>Works offline and respects your privacy.</b>
 Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
 
-## Installing
-
-The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
-You may also download and install the APK from the [releases page][releases];
-note, however, that the app will not be updated automatically.  To build this
-app from the source code, see [build instructions][build].
-
-## Contributing
-
-Loop is an open source project developed entirely by volunteers. If you would
-like to contribute to the project, you are very welcome. There are many ways to
-contribute, even if you are not a software developer.
-
-* **Report bugs, suggest features.** The easiest way to contribute is to simply
-  use the app and let us know if you find any problems or have any suggestions
-  to improve it. You can either use the link inside the app, or open an issue
-  at GitHub. If you would like to receive the newest versions of the app
-  earlier than everyone else, [join our open beta on Google Play][beta].
-
-* **Spread the word.** If you like the app, share it with your family, friends
-  and colleagues. You can also rate and review the app on Google Play Store, to help
-  other users find it more easily.
-
-* **Translate the app into your own language.** If you are not a native English
-  speaker, and would like to see the app translated into your own language,
-  please join our [open translation project][poedit]. If the translation
-  is already completed, you are also very welcome to join and proofread it.
-
-* **Write some code.** If you are an Android developer, you are very welcome to
-  contribute with code. Please, see the [developer guidelines][dev-guide] for more details.
-
 ## License
 
 <img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
-  Copyright (C) 2016-2019 Álinson Santos Xavier <isoron@gmail.com>
+  .
 
   Loop Habit Tracker is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by the
