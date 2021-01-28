@@ -50,7 +50,7 @@ class HeaderView(
         }
 
     init {
-        setScrollerBucketSize(dim(R.dimen.checkmarkWidth).toInt())
+        setScrollerBucketSize(dim(R.dimen.scrollerBucketSize).toInt())
         setBackgroundColor(sres.getColor(R.attr.headerBackgroundColor))
         if (SDK_INT >= LOLLIPOP) elevation = dp(2.0f)
     }

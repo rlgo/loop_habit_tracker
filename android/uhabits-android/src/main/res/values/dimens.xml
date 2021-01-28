@@ -19,14 +19,15 @@
 
 <resources>
     <dimen name="baseSize">20dp</dimen>
-    <dimen name="checkmarkWidth">48dp</dimen>
-    <dimen name="checkmarkHeight">48dp</dimen>
+    <dimen name="checkmarkWidth">34dp</dimen>
+    <dimen name="checkmarkHeight">52dp</dimen>
+    <dimen name="scrollerBucketSize">48dp</dimen>
     <dimen name="history_editor_max_height">450dp</dimen>
     <dimen name="history_editor_padding">8dp</dimen>
-    <dimen name="regularTextSize">16sp</dimen>
-    <dimen name="smallTextSize">14sp</dimen>
-    <dimen name="smallerTextSize">12sp</dimen>
-    <dimen name="tinyTextSize">10sp</dimen>
-    <dimen name="habitNameWidth">160dp</dimen>
+    <dimen name="regularTextSize">18sp</dimen>
+    <dimen name="smallTextSize">17sp</dimen>
+    <dimen name="smallerTextSize">14sp</dimen>
+    <dimen name="tinyTextSize">12sp</dimen>
+    <dimen name="habitNameWidth">120dp</dimen>
     <dimen name="checkmarkWidget_heightBreakpoint">55dp</dimen>
 </resources>
